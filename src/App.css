@@ -1,0 +1,14 @@
+.inicioView{
+    margin-top: 56px;
+    width: '100vw';
+    height: '100vh';
+}
+.card {
+    transition: transform 0.3s ease-in-out;
+}
+
+.card:hover {
+    transform: scale(1.1);
+    margin-bottom: 5%;
+}
+
