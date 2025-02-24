@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import './App.css'
 import { Cabecera } from './components/Cabecera';
 import { LoginForm } from './components/LoginForm';
@@ -12,11 +12,11 @@ export const App = () => {
     token: '',
     message: ''
   })
-
+  const [isLogin, setIsLogin] = useState(false);
 
   const handleLoginClick = () => {
     setShowLogin(true);
-  };
+  }
 
   const handleCloseLogin = () => {
     setShowLogin(false);
@@ -27,16 +27,26 @@ export const App = () => {
 
   const handlerDoLogin = async (user) => {
     const result = await doLogin({...user});
-    //console.log(result.data)
-    setUser(result.data)
+    console.log(result)
+    if (result.status === 200) {
+      setUser({...result.data});
+      setIsLogin(true);
+      handleCloseLogin();
+    }else{
+      console.log("Fallo " + result.status)
+    }
+      
   }
-
+  const verifyIsLogin = () => {
+    return isLogin;
+  }
+  
 
   return (
     <>
       <Cabecera onLoginClick={handleLoginClick} reloadPage={reload}></Cabecera>
       { showLogin && <LoginForm onClose={handleCloseLogin} reloadPage={reload} handlerDoLogin={handlerDoLogin}></LoginForm>}
-      { !showLogin && <InicioBody></InicioBody>}
+      { !showLogin && <InicioBody verifyIsLogin={verifyIsLogin}></InicioBody>}
     </>
   )
 }

@@ -12,9 +12,9 @@ export const LoginForm = ({ onClose, reloadPage, handlerDoLogin}) => {
 
   return (
     <>
-      <div style={{ width: '100vw', height: '100vh', position: 'relative', overflow: 'hidden' }}>
+      <div style={{ width: '100vw', height: '100vh', position: 'relative', overflow: 'hidden',backgroundColor:'#353535' }}>
         <Particles
-          particleColors={['#ffffff', '#ffffff']}
+          particleColors={['#39045c', '#ffffff']}
           particleCount={500}
           particleSpread={10}
           speed={0.3}
@@ -33,7 +33,7 @@ export const LoginForm = ({ onClose, reloadPage, handlerDoLogin}) => {
               handlerDoLogin(form);
 
               setForm(initialDataForm); //lo limpio
-              onClose();
+              //onClose();
 
             }}>
               <div className="mb-3">

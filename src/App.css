@@ -9,6 +9,16 @@
 
 .card:hover {
     transform: scale(1.1);
-    margin-bottom: 5%;
+}
+
+.squares-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Asegúrate de que esté detrás del contenido principal */
+    background-color: #39045c; /* Color de fondo si es necesario */
+    /*#39045c*/
 }
 
