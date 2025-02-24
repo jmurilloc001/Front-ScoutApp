@@ -1,5 +1,4 @@
 import TextPressure from './TextPressure/TextPressure';
-import Squares from './Squares/Squares';
 import Particles from './Particles/Particles';
 
 export const InicioBody = ({ verifyIsLogin }) => {

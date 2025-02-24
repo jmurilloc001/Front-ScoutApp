@@ -1,4 +1,4 @@
-export const Cabecera = ({ onLoginClick, reloadPage, verifyIsLogin }) => {
+export const Cabecera = ({ onLoginClick, reloadPage, verifyIsLogin, onRegisterClick, handlerLogout }) => {
     return (
       <>
       <div className="cabecera">
@@ -29,11 +29,17 @@ export const Cabecera = ({ onLoginClick, reloadPage, verifyIsLogin }) => {
                       <a className="nav-link" href="#" onClick={onLoginClick}>Login</a>
                     </li>
                     <li className="nav-item">
-                      <a className="nav-link" href="#">Register</a>
+                      <a className="nav-link" href="#" onClick={onRegisterClick}>Register</a>
                     </li>
                   </>
                 )}
-                
+                {verifyIsLogin() && (
+                  <>
+                  <li className="nav-item">
+                    <a className="nav-link" href="#" onClick={handlerLogout}> Logout</a>
+                  </li>
+                  </>
+                )}
               </ul>
             </div>
           </div>
