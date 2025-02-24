@@ -6,7 +6,7 @@ const initialDataForm = {
   password: ''
 }
 
-export const LoginForm = ({ onClose, reloadPage, handlerDoLogin}) => {
+export const LoginForm = ({handlerDoLogin}) => {
 
   const [form, setForm] = useState(initialDataForm)
 
@@ -33,8 +33,7 @@ export const LoginForm = ({ onClose, reloadPage, handlerDoLogin}) => {
               handlerDoLogin(form);
 
               setForm(initialDataForm); //lo limpio
-              //onClose();
-
+              
             }}>
               <div className="mb-3">
                 <label htmlFor="user" className="form-label">User</label>

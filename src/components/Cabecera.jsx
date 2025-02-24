@@ -1,4 +1,4 @@
-export const Cabecera = ({ onLoginClick, reloadPage }) => {
+export const Cabecera = ({ onLoginClick, reloadPage, verifyIsLogin }) => {
     return (
       <>
       <div className="cabecera">
@@ -23,12 +23,17 @@ export const Cabecera = ({ onLoginClick, reloadPage }) => {
                 </li>
               </ul>
               <ul className="navbar-nav ms-auto">
-                <li className="nav-item">
-                  <a className="nav-link" href="#" onClick={onLoginClick}>Login</a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="#">Register</a>
-                </li>
+                {!verifyIsLogin() && (
+                  <>
+                    <li className="nav-item">
+                      <a className="nav-link" href="#" onClick={onLoginClick}>Login</a>
+                    </li>
+                    <li className="nav-item">
+                      <a className="nav-link" href="#">Register</a>
+                    </li>
+                  </>
+                )}
+                
               </ul>
             </div>
           </div>
