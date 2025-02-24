@@ -29,11 +29,10 @@ export const LoginForm = ({handlerDoLogin}) => {
             <form onSubmit={(event) => {
               event.preventDefault();
 
-              console.log(form);
               handlerDoLogin(form);
 
               setForm(initialDataForm); //lo limpio
-              
+
             }}>
               <div className="mb-3">
                 <label htmlFor="user" className="form-label">User</label>

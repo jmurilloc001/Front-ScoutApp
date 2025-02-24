@@ -84,16 +84,25 @@ export const App = () => {
     }
   };
 
+  const hasRequiredRoles = (requiredRoles) => {
+    const usuarioGuardado = JSON.parse(sessionStorage.getItem('user'));
+    if (usuarioGuardado && usuarioGuardado.roles) {
+        return requiredRoles.some(role => usuarioGuardado.roles.includes(role));
+    }
+    return false;
+  };
+
   useEffect(() => {
     verifyToken();
   }, []);
 
+  
   return (
     <>
       <Cabecera onLoginClick={handleLoginClick} reloadPage={reload} verifyIsLogin={verifyIsLogin} onLogoutClick={handleLogout} onRegisterClick={handleRegisterClick} handlerLogout={handleLogout}></Cabecera>
       {showLogin && <LoginForm handlerDoLogin={handlerDoLogin}></LoginForm>}
       {showRegister && !showLogin && <RegisterForm  handlerDoRegister={handlerDoRegister}></RegisterForm>}
-      {!showLogin && !showRegister && <InicioBody verifyIsLogin={verifyIsLogin}></InicioBody>}
+      {!showLogin && !showRegister && <InicioBody verifyIsLogin={verifyIsLogin} hasRequiredRoles={hasRequiredRoles}></InicioBody>}
     </>
   );
 };

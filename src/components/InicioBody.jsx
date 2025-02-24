@@ -1,7 +1,7 @@
 import TextPressure from './TextPressure/TextPressure';
 import Particles from './Particles/Particles';
 
-export const InicioBody = ({ verifyIsLogin }) => {
+export const InicioBody = ({ verifyIsLogin, hasRequiredRoles }) => {
     return (
         <>
         <div className="squares-background">
@@ -22,7 +22,7 @@ export const InicioBody = ({ verifyIsLogin }) => {
                     <div className='col-12' style={{ position: 'relative', height: '10%', width: '100%', paddingTop: '10%' }}>
                         <TextPressure
                             text='SCOUTS MARWAN'
-                            fontFamily = 'Times New Roman'
+                            fontFamily = 'a'
                             flex={true}
                             alpha={false}
                             stroke={false}
@@ -32,7 +32,7 @@ export const InicioBody = ({ verifyIsLogin }) => {
                             italic={true}
                             textColor="#8A2BE2"
                             strokeColor="#8A2BE2"
-                            minFontSize={150}
+                            minFontSize={130}
                             className="display-4"
                         />
                     </div>
@@ -67,7 +67,7 @@ export const InicioBody = ({ verifyIsLogin }) => {
                     </div>
                 </div>
                 {
-                    verifyIsLogin() && (
+                    verifyIsLogin() && hasRequiredRoles(['ROLE_ADMIN','ROLE_SCOUTER','ROLE_COORDI']) && (
                         <>
                         <div className='col-md-6 mb-4'>
                             <div className='card bg-dark text-white m-2' style={{ borderRadius: '30px', height: '200px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}> {/* Contenedor más grande */}
