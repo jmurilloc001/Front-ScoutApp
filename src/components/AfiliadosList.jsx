@@ -9,7 +9,6 @@ export const AfiliadosList = ({ closeAffiliates }) => {
         const fetchAffiliates = async () => {
             const result = await getAffiliates();
             if (result.status === 200) {
-                console.log(result.data); // Verifica la estructura de los datos
                 setAffiliates(result.data);
             } else {
                 console.log("Error al obtener los afiliados: " + JSON.stringify(result.data));
@@ -38,7 +37,7 @@ export const AfiliadosList = ({ closeAffiliates }) => {
                 {affiliates.length > 0 ? (
                     <ul className="list-group">
                         {affiliates.map((affiliate, index) => (
-                            <li key={index} className="list-group-item bg-dark text-white border-secondary mb-3 rounded shadow-sm">
+                            <li key={index} className="list-group-item bg-dark text-white border-secondary mb-3 rounded shadow-sm grow">
                                 {affiliate.enabled && 
                                 <div className="d-flex justify-content-between align-items-center">
                                     <div>

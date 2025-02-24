@@ -88,8 +88,6 @@ export const getAffiliates = async () => {
           }
       });
 
-      console.log(response.data); // Verifica la estructura de los datos recibidos
-
       if (response.status === 200) {
           const afiliate = response.data.map(affiliate => ({
               username: affiliate.username,

@@ -77,6 +77,7 @@ export const App = () => {
     });
     setIsLogin(false);
     sessionStorage.removeItem('user'); // Eliminar datos del usuario de sessionStorage
+    setAllFalse();
   };
 
   const verifyIsLogin = () => {
@@ -101,6 +102,12 @@ export const App = () => {
     return false;
   };
 
+  const setAllFalse = () => {
+    setAffiliates(false);
+    setIsLogin(false);
+    setShowLogin(false);
+    setShowRegister(false);
+  }
   useEffect(() => {
     verifyToken();
   }, []);
