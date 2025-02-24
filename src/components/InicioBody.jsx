@@ -1,7 +1,7 @@
 import TextPressure from './TextPressure/TextPressure';
 import Particles from './Particles/Particles';
 
-export const InicioBody = ({ verifyIsLogin, hasRequiredRoles }) => {
+export const InicioBody = ({ verifyIsLogin, hasRequiredRoles, showAffiliates }) => {
     return (
         <>
         <div className="squares-background">
@@ -70,7 +70,7 @@ export const InicioBody = ({ verifyIsLogin, hasRequiredRoles }) => {
                     verifyIsLogin() && hasRequiredRoles(['ROLE_ADMIN','ROLE_SCOUTER','ROLE_COORDI']) && (
                         <>
                         <div className='col-md-6 mb-4'>
-                            <div className='card bg-dark text-white m-2' style={{ borderRadius: '30px', height: '200px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}> {/* Contenedor más grande */}
+                            <div className='card bg-dark text-white m-2' style={{ borderRadius: '30px', height: '200px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={showAffiliates}> {/* Contenedor más grande */}
                                 <div className='card-body text-center'>
                                     <i className='fas fa-handshake' style={{ fontSize: '5rem', marginBottom: '10px' }}></i> {/* Icono de apretón de manos */}
                                     <h5 className='card-title'>Afiliados</h5>

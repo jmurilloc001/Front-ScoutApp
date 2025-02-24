@@ -5,10 +5,12 @@ import { LoginForm } from './components/LoginForm';
 import { RegisterForm } from './components/RegisterForm';
 import { doLogin, doRegister, isTokenExpired } from './services/UserService';
 import { InicioBody } from './components/InicioBody';
+import { AfiliadosList } from './components/AfiliadosList';
 
 export const App = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
+  const [showAffiliates, setAffiliates] = useState(false);
   const [user, setUser] = useState({
     username: '',
     token: '',
@@ -24,11 +26,18 @@ export const App = () => {
     setShowRegister(true);
   };
 
+  const handleAffiliatesListClick = () => {
+    setAffiliates(true);
+  };
   const handleCloseLogin = () => {
     setShowLogin(false);
   };
   const handleCloseRegister = () => {
     setShowRegister(false);
+    
+  };
+  const handleCloseAffiliateList = () => {
+    setAffiliates(false);
   };
 
   const reload = () => {
@@ -102,7 +111,8 @@ export const App = () => {
       <Cabecera onLoginClick={handleLoginClick} reloadPage={reload} verifyIsLogin={verifyIsLogin} onLogoutClick={handleLogout} onRegisterClick={handleRegisterClick} handlerLogout={handleLogout}></Cabecera>
       {showLogin && <LoginForm handlerDoLogin={handlerDoLogin}></LoginForm>}
       {showRegister && !showLogin && <RegisterForm  handlerDoRegister={handlerDoRegister}></RegisterForm>}
-      {!showLogin && !showRegister && <InicioBody verifyIsLogin={verifyIsLogin} hasRequiredRoles={hasRequiredRoles}></InicioBody>}
+      {!showLogin && !showRegister && !showAffiliates && <InicioBody verifyIsLogin={verifyIsLogin} hasRequiredRoles={hasRequiredRoles} showAffiliates={handleAffiliatesListClick}></InicioBody>}
+      {showAffiliates && <AfiliadosList closeAffiliates={handleCloseAffiliateList}></AfiliadosList>}
     </>
   );
 };
