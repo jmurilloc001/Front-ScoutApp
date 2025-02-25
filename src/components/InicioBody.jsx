@@ -88,10 +88,8 @@ export const InicioBody = ({ verifyIsLogin, hasRequiredRoles, showAffiliates }) 
                             </div>
                         </div>
                         </>
-                    
                     )
                 }
-                
             </div>
         </div>
         </>

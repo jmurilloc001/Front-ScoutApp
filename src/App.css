@@ -9,6 +9,7 @@
 
 .card:hover {
     transform: scale(1.05);
+    cursor: pointer;
 }
 
 .squares-background {
@@ -20,6 +21,17 @@
     z-index: -1; /* Asegúrate de que esté detrás del contenido principal */
     background-color: #39045c; /* Color de fondo si es necesario */
     /*#39045c*/
+}
+
+.btn-purple {
+    background-color: #6f42c1;
+    border-color: #6f42c1;
+    color: white;
+}
+
+.btn-purple:hover {
+    background-color: #5a379d;
+    border-color: #5a379d;
 }
 
 @keyframes grow {
@@ -37,4 +49,53 @@
     animation: grow 0.5s ease-out forwards;
 }
 
+@keyframes slideIn {
+    0% {
+        transform: translateX(-100%) scale(0);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInRight {
+    0% {
+        transform: translateX(100%) scale(0);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+}
+
+.slide-in-left {
+    animation: slideIn 0.5s ease-out forwards;
+}
+
+.slide-in-right {
+    animation: slideInRight 0.5s ease-out forwards;
+}
+
+.card-purple {
+    background-color: #6f42c1;
+    border-color: #6f42c1;
+    color: white;
+}
+
+.card-purple .card-header {
+    background-color: #5a379d;
+    border-color: #5a379d;
+}
+
+.card-purple .card-body {
+    background-color: #6f42c1;
+}
+
+.card-purple .card-footer {
+    background-color: #5a379d;
+    border-color: #5a379d;
+}
 

@@ -74,45 +74,6 @@ export const getRoles = async (username) => {
   }
 };
 
-export const getAffiliates = async () => {
-  try {
-      const user = JSON.parse(sessionStorage.getItem('user')); // Obtén el objeto user del sessionStorage
-      const token = user?.token; // Extrae el token del objeto user
-      if (!token) {
-          throw new Error('Token no encontrado');
-      }
-
-      const response = await axios.get(baseURL, {
-          headers: {
-              'Authorization': `Bearer ${token}` // Añade el token en los encabezados
-          }
-      });
-
-      if (response.status === 200) {
-          const afiliate = response.data.map(affiliate => ({
-              username: affiliate.username,
-              name: affiliate.name || 'N/A',
-              lastname: affiliate.lastname || 'N/A',
-              roles: Array.isArray(affiliate.roles) ? affiliate.roles : [], // Asegúrate de que roles es un array
-              enabled: affiliate.enabled
-          }));
-          return {
-              status: response.status,
-              data: afiliate
-          };
-      }
-
-      return response;
-  } catch (error) {
-      console.log(error);
-      return {
-          status: error.response ? error.response.status : 500,
-          data: error.response ? error.response.data : { message: 'Error desconocido' }
-      };
-  }
-}
-
-
 export const isTokenExpired = (token) => {
   if (!token) return true;
   const { exp } = jwtDecode(token);

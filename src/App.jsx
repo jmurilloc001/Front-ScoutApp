@@ -108,6 +108,8 @@ export const App = () => {
     setShowLogin(false);
     setShowRegister(false);
   }
+
+
   useEffect(() => {
     verifyToken();
   }, []);
@@ -119,7 +121,7 @@ export const App = () => {
       {showLogin && <LoginForm handlerDoLogin={handlerDoLogin}></LoginForm>}
       {showRegister && !showLogin && <RegisterForm  handlerDoRegister={handlerDoRegister}></RegisterForm>}
       {!showLogin && !showRegister && !showAffiliates && <InicioBody verifyIsLogin={verifyIsLogin} hasRequiredRoles={hasRequiredRoles} showAffiliates={handleAffiliatesListClick}></InicioBody>}
-      {showAffiliates && <AfiliadosList closeAffiliates={handleCloseAffiliateList}></AfiliadosList>}
+      {showAffiliates && <AfiliadosList closeAffiliates={handleCloseAffiliateList} hasRequiredRoles={hasRequiredRoles}></AfiliadosList>}
     </>
   );
 };
