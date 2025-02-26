@@ -74,6 +74,25 @@ export const getRoles = async (username) => {
   }
 };
 
+export const getAllUsers = async () => {
+  try {
+    const token = conseguirToken();
+    const response = await axios.get(baseURL, {
+       headers: {
+           'Authorization': `Bearer ${token}`
+       }
+     });
+ 
+     return { status: response.status, data: response.data };
+   } catch (error) {
+   console.log('Error en la búsqueda de los usuarios:' + error);
+   return { 
+     status: error.response ? error.response.status : 500, 
+     data: error.response ? error.response.data : { message: 'Error desconocido' }
+   }
+   }
+}
+
 export const getUserByUsername = async (username) => {
   try {
    const token = conseguirToken();
@@ -159,6 +178,7 @@ export const conseguirToken = () => {
   }
   return token;
 };
+
 export const getIdByUsername = async (username) => {
   const response = await getUserByUsername(username);
   console.log(response);
@@ -172,4 +192,19 @@ export const getIdByUsername = async (username) => {
       });
       return 0;
   }
+};
+
+export const removeUser = async (id) => {
+  try {
+    const token = conseguirToken();
+    const response = await axios.delete(baseURL+'/'+id, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+    return { status: response.status };
+}catch (error){
+    console.log('Error borrado al usuario ' + id + ": ", error);
+    return { status: error.response?.status || 500, message: error.message };
+}
 }

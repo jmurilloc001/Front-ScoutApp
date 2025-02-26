@@ -8,12 +8,14 @@ import { InicioBody } from './components/InicioBody';
 import { AfiliadosList } from './components/AfiliadosList';
 import { UserDetails } from './components/UserDetails';
 import Swal from 'sweetalert2';
+import { AdministrarUsers } from './components/UserUtil/AdministrarUsers';
 
 export const App = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const [showAffiliates, setAffiliates] = useState(false);
   const [showUserDetails, setShowUserDetails] = useState(false);
+  const [showManageUsers, setShowManageUsers] = useState(false);
   const [user, setUser] = useState({
     username: '',
     token: '',
@@ -116,14 +118,21 @@ export const App = () => {
     return false;
   };
 
+  const handlerShowManageAdmin = () => {
+    setShowManageUsers(true);
+  };
+  const handlerCloseShowManageAdmin = () => {
+    setShowManageUsers(false);
+  };
+  
   const setAllFalse = () => {
     setAffiliates(false);
     setIsLogin(false);
     setShowLogin(false);
     setShowRegister(false);
-  }
-
-
+    setShowManageUsers(false);
+  };
+  
   useEffect(() => {
     verifyToken();
   }, []);
@@ -131,12 +140,13 @@ export const App = () => {
   
   return (
     <>
-      <Cabecera onLoginClick={handleLoginClick} reloadPage={reload} verifyIsLogin={verifyIsLogin} onLogoutClick={handleLogout} onRegisterClick={handleRegisterClick} handlerLogout={handleLogout} handlerUserDetails={handlerUserDetails}></Cabecera>
+      <Cabecera onLoginClick={handleLoginClick} reloadPage={reload} verifyIsLogin={verifyIsLogin} onLogoutClick={handleLogout} onRegisterClick={handleRegisterClick} handlerLogout={handleLogout} handlerUserDetails={handlerUserDetails} handlerManageUsers={handlerShowManageAdmin} hasRequiredRole={hasRequiredRoles}></Cabecera>
       {showLogin && <LoginForm handlerDoLogin={handlerDoLogin}></LoginForm>}
       {showRegister && !showLogin && <RegisterForm  handlerDoRegister={handlerDoRegister}></RegisterForm>}
-      {!showLogin && !showRegister && !showAffiliates && !showUserDetails && <InicioBody verifyIsLogin={verifyIsLogin} hasRequiredRoles={hasRequiredRoles} showAffiliates={handleAffiliatesListClick}></InicioBody>}
+      {!showLogin && !showRegister && !showAffiliates && !showUserDetails && !showManageUsers && <InicioBody verifyIsLogin={verifyIsLogin} hasRequiredRoles={hasRequiredRoles} showAffiliates={handleAffiliatesListClick}></InicioBody>}
       {showAffiliates && <AfiliadosList closeAffiliates={handleCloseAffiliateList} hasRequiredRoles={hasRequiredRoles}></AfiliadosList>}
       {showUserDetails && <UserDetails handlerCloseUserDetails={handlerCloseUserDetails}></UserDetails>}
+      {showManageUsers && <AdministrarUsers closeManageUsers={handlerCloseShowManageAdmin}></AdministrarUsers>}
     </>
   );
 };

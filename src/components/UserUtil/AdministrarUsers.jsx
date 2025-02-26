@@ -1,0 +1,109 @@
+import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+import { getAllUsers, removeUser } from "../../services/UserService";
+import Particles from "../Particles/Particles";
+
+export const AdministrarUsers = ({ closeManageUsers }) => {
+    const [users, setUsers] = useState([]);
+
+    const handleDeleteUser = async (id) => {
+        try {
+            const response = await removeUser(id);
+            if (response.status === 200) {
+                setUsers((prevUser) => prevUser.filter((a) => a.id !== id));
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Eliminación exitosa',
+                    text: 'Usuario eliminado correctamente.',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: `Error al eliminar el user: ${response.status}`,
+                });
+            }
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: `Error al eliminar el user: ${error.message}`,
+            });
+        }
+    };
+
+    const confirmDeleteUser = (id) => {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "No podrás revertir esto",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminarlo'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                handleDeleteUser(id);
+            }
+        });
+    };
+
+    useEffect(() => {
+        const fetchAffiliates = async () => {
+            const result = await getAllUsers();
+            if (result.status === 200) {
+                setUsers(result.data);
+            } else {
+                console.log("Error al obtener los usuarios: " + JSON.stringify(result.data));
+            }
+        };
+
+        fetchAffiliates();
+    }, []); // Asegúrate de que el array de dependencias está vacío
+
+    return (
+        <>
+            <div className="squares-background">
+                <Particles
+                    particleColors={['#39045c', '#ffffff']}
+                    particleCount={500}
+                    particleSpread={10}
+                    speed={0.3}
+                    particleBaseSize={100}
+                    moveParticlesOnHover={true}
+                    alphaParticles={false}
+                    disableRotation={false}
+                />
+            </div>
+                <div className="container mt-5 text-white p-4">
+                    <h2 className="text-center mt-3 mb-4">Lista de Usuarios</h2>
+                    <div className="text-center mb-4">
+                    </div>
+                    {users.length > 0 ? (
+                        <ul className="list-group">
+                            {users.map((user, index) => (
+                                <li key={index} className="list-group-item bg-dark text-white border-secondary mb-3 rounded shadow-sm grow">
+                                    <div className="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h5 className="mb-1">{user.username}</h5>
+                                            <p className="mb-1">id: {user.id}</p>
+                                        </div>
+                                        <div className="d-flex align-items-center">
+                                            <button className="btn btn-danger" onClick={() => confirmDeleteUser(user.id)}>Borrar</button>
+                                        </div>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <h1 className="text-center mt-5">NO SE HA PODIDO TRAER EL CONTENIDO</h1>
+                    )}
+                    <div className="text-center mt-4">
+                        <button className="btn btn-primary" onClick={closeManageUsers}>Salir</button>
+                    </div>
+                </div>
+        </>
+    );
+};

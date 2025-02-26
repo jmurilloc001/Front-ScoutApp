@@ -95,7 +95,7 @@ export const remove = async(id) => {
         });
         return { status: response.status };
     }catch (error){
-        console.log('Error borrado al usuario ' + id + ": ", error);
+        console.log('Error borrando al affiliado ' + id + ": ", error);
         return { status: error.response?.status || 500, message: error.message };
     }
 }
