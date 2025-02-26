@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Swal from "sweetalert2";
+import { getIdByUsername, getUserByUsername, updatePassword } from "../../services/UserService";
 
 export const CambiarPassword = () => {
     const [form, setForm] = useState({
@@ -16,8 +17,9 @@ export const CambiarPassword = () => {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
+        
         if (form.newPassword !== form.confirmPassword) {
             Swal.fire({
                 icon: 'error',
@@ -26,12 +28,35 @@ export const CambiarPassword = () => {
             });
             return;
         }
-        // Lógica para cambiar la contraseña
-        Swal.fire({
-            icon: 'success',
-            title: 'Contraseña cambiada',
-            text: 'La contraseña se ha cambiado correctamente.',
-        });
+        
+        if (form.newPassword < 4) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'La longitud tiene que ser mayor a 4 '
+            });
+            return;
+        }
+
+        const currentUser = JSON.parse(sessionStorage.getItem('user'));
+        console.log(currentUser);
+        
+        const id = await getIdByUsername(currentUser.username);
+        const response = await updatePassword(form.newPassword,id);
+
+        if (response.status === 201){
+            Swal.fire({
+                icon: 'success',
+                title: 'Contraseña cambiada',
+                text: 'La contraseña se ha cambiado correctamente.',
+            });
+        }else{
+             Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'No se ha podido modificar la contraseña. Status: ' + response.status,
+            });
+        }
     };
 
     return (

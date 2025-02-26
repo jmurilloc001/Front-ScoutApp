@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { getUserByUsername, updateUsername } from "../../services/UserService";
+import { getIdByUsername, getUserByUsername, updateUsername } from "../../services/UserService";
 
 export const CambiarUsername = () => {
     const [form, setForm] = useState({
@@ -21,20 +21,7 @@ export const CambiarUsername = () => {
         
         return response;
     }
-    const getIdByUsername = async (username) => {
-        const response = await getUserByUsername(username);
-        console.log(response);
-        if (response.status === 200) {
-            return response.data.id;
-        }else{
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'No se ha encontrado el usuario. Status: '+ response.status
-            });
-            return 0;
-        }
-    }
+    
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -61,11 +48,11 @@ export const CambiarUsername = () => {
                 });
             } else {
                 try {
-                    const id = await getIdByUsername(form.currentUsername); // Aquí usamos await
+                    const id = await getIdByUsername (form.currentUsername); 
                     console.log("EL ID ES: " + id);
                     
                     if (id !== 0) {
-                        const response = await changeUsernameDb(form.newUsername, id); // Aquí también usamos await
+                        const response = await changeUsernameDb(form.newUsername, id);
                         if (response.status === 201) {
                             Swal.fire({
                                 icon: 'success',

@@ -117,6 +117,30 @@ export const updateUsername = async (username, id) => {
     }
   }
 };
+export const updatePassword = async (password, id) => {
+  try {
+    const token = conseguirToken();
+    const response = await axios.patch(baseURL+'/'+id+'/password',
+      {password: password}
+    ,
+    {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    console.log(response.data);
+    console.log(response.status);
+    
+    return { status: response.status, data: response.data }
+  } catch (error) {
+    console.log("No se ha podido cambiar el password. Error:  "  + error);
+    return { 
+      status: error.response ? error.response.status : 500, 
+      data: error.response ? error.response.data : { message: 'Error desconocido' }
+    }
+  }
+};
 
 export const isTokenExpired = (token) => {
   if (!token) return true;
@@ -135,3 +159,17 @@ export const conseguirToken = () => {
   }
   return token;
 };
+export const getIdByUsername = async (username) => {
+  const response = await getUserByUsername(username);
+  console.log(response);
+  if (response.status === 200) {
+      return response.data.id;
+  }else{
+      Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se ha encontrado el usuario. Status: '+ response.status
+      });
+      return 0;
+  }
+}
