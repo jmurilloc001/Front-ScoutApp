@@ -110,10 +110,10 @@ export const UserDetails = ({ handlerCloseUserDetails }) => {
                 </table>
 
                 {
-                    showChangePassword && <CambiarPassword></CambiarPassword>
+                    showChangePassword && <CambiarPassword ></CambiarPassword>
                 }
                 {
-                    showChangeUsername && <CambiarUsername></CambiarUsername>
+                    showChangeUsername && <CambiarUsername ></CambiarUsername>
                 }
 
                 <div className="text-center mt-4">

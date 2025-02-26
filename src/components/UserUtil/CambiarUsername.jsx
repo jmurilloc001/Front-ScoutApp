@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { getIdByUsername, getUserByUsername, updateUsername } from "../../services/UserService";
+import { getIdByUsername, updateUsername } from "../../services/UserService";
 
 export const CambiarUsername = () => {
     const [form, setForm] = useState({
@@ -57,7 +57,7 @@ export const CambiarUsername = () => {
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Nombre de Usuario Cambiado',
-                                text: 'El nombre de usuario se ha cambiado correctamente.',
+                                text: 'El nombre de usuario se ha cambiado correctamente. VUELVE A INICIAR SESIÓN',
                             });
                         } else {
                             Swal.fire({

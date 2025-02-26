@@ -48,7 +48,7 @@ export const CambiarPassword = () => {
             Swal.fire({
                 icon: 'success',
                 title: 'Contraseña cambiada',
-                text: 'La contraseña se ha cambiado correctamente.',
+                text: 'La contraseña se ha cambiado correctamente. VUELVE A INICIAR SESION',
             });
         }else{
              Swal.fire({

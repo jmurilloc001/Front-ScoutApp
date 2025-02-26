@@ -60,4 +60,3 @@ export const Cabecera = ({ onLoginClick, reloadPage, verifyIsLogin, onRegisterCl
       </>
     );
 };
-
