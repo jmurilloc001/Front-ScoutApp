@@ -6,11 +6,14 @@ import { RegisterForm } from './components/RegisterForm';
 import { doLogin, doRegister, isTokenExpired } from './services/UserService';
 import { InicioBody } from './components/InicioBody';
 import { AfiliadosList } from './components/AfiliadosList';
+import { UserDetails } from './components/UserDetails';
+import Swal from 'sweetalert2';
 
 export const App = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const [showAffiliates, setAffiliates] = useState(false);
+  const [showUserDetails, setShowUserDetails] = useState(false);
   const [user, setUser] = useState({
     username: '',
     token: '',
@@ -40,6 +43,13 @@ export const App = () => {
     setAffiliates(false);
   };
 
+  const handlerUserDetails = () => {
+    setShowUserDetails(true);
+  }
+  const handlerCloseUserDetails = () => {
+    setShowUserDetails(false);
+  }
+
   const reload = () => {
     window.location.reload();
   };
@@ -54,7 +64,11 @@ export const App = () => {
       handleCloseLogin();
       handleCloseRegister();
     } else {
-      alert("Fallo de autenticación");
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: result.data.message + " Status: " + result.status,
+    });       
       console.log("Fallo " + result.status);
     }
   };
@@ -117,11 +131,12 @@ export const App = () => {
   
   return (
     <>
-      <Cabecera onLoginClick={handleLoginClick} reloadPage={reload} verifyIsLogin={verifyIsLogin} onLogoutClick={handleLogout} onRegisterClick={handleRegisterClick} handlerLogout={handleLogout}></Cabecera>
+      <Cabecera onLoginClick={handleLoginClick} reloadPage={reload} verifyIsLogin={verifyIsLogin} onLogoutClick={handleLogout} onRegisterClick={handleRegisterClick} handlerLogout={handleLogout} handlerUserDetails={handlerUserDetails}></Cabecera>
       {showLogin && <LoginForm handlerDoLogin={handlerDoLogin}></LoginForm>}
       {showRegister && !showLogin && <RegisterForm  handlerDoRegister={handlerDoRegister}></RegisterForm>}
-      {!showLogin && !showRegister && !showAffiliates && <InicioBody verifyIsLogin={verifyIsLogin} hasRequiredRoles={hasRequiredRoles} showAffiliates={handleAffiliatesListClick}></InicioBody>}
+      {!showLogin && !showRegister && !showAffiliates && !showUserDetails && <InicioBody verifyIsLogin={verifyIsLogin} hasRequiredRoles={hasRequiredRoles} showAffiliates={handleAffiliatesListClick}></InicioBody>}
       {showAffiliates && <AfiliadosList closeAffiliates={handleCloseAffiliateList} hasRequiredRoles={hasRequiredRoles}></AfiliadosList>}
+      {showUserDetails && <UserDetails handlerCloseUserDetails={handlerCloseUserDetails}></UserDetails>}
     </>
   );
 };

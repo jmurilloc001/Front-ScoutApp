@@ -18,7 +18,7 @@ export const doLogin = async ({ username, password }) => {
         data: {
           ...response.data,
           roles: roles
-        } // Añadir roles a la respuesta
+        } 
       };
     }
 
@@ -59,7 +59,7 @@ export const doRegister = async ({ username, password }) => {
         data: error.response ? error.response.data : { message: 'Error desconocido' }
       };
     }
-  };
+};
 
 export const getRoles = async (username) => {
   try {
@@ -74,6 +74,50 @@ export const getRoles = async (username) => {
   }
 };
 
+export const getUserByUsername = async (username) => {
+  try {
+   const token = conseguirToken();
+   const response = await axios.get(baseURL+'/'+username, {
+      headers: {
+          'Authorization': `Bearer ${token}`
+      }
+    });
+
+    return { status: response.status, data: response.data };
+  } catch (error) {
+  console.log('Error en la búsqueda del usuario: ' + username + ". Error: " + error);
+  return { 
+    status: error.response ? error.response.status : 500, 
+    data: error.response ? error.response.data : { message: 'Error desconocido' }
+  }
+  }
+};
+
+export const updateUsername = async (username, id) => {
+  try {
+    const token = conseguirToken();
+    const response = await axios.patch(baseURL+'/'+id+'/username',
+      {username: username}
+    ,
+    {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    console.log(response.data);
+    console.log(response.status);
+    
+    return { status: response.status, data: response.data }
+  } catch (error) {
+    console.log("No se ha podido cambiar el username. Error:  "  + error);
+    return { 
+      status: error.response ? error.response.status : 500, 
+      data: error.response ? error.response.data : { message: 'Error desconocido' }
+    }
+  }
+};
+
 export const isTokenExpired = (token) => {
   if (!token) return true;
   const { exp } = jwtDecode(token);
@@ -81,4 +125,13 @@ export const isTokenExpired = (token) => {
     return true;
   }
   return false;
+};
+
+export const conseguirToken = () => {
+  const user = JSON.parse(sessionStorage.getItem('user')); // Obtén el objeto user del sessionStorage
+  const token = user?.token; // Extrae el token del objeto user
+  if (!token) {
+      throw new Error('Token no encontrado');
+  }
+  return token;
 };
