@@ -136,6 +136,7 @@ export const updateUsername = async (username, id) => {
     }
   }
 };
+
 export const updatePassword = async (password, id) => {
   try {
     const token = conseguirToken();
@@ -147,13 +148,30 @@ export const updatePassword = async (password, id) => {
         'Authorization': `Bearer ${token}`
       }
     });
-
-    console.log(response.data);
-    console.log(response.status);
     
     return { status: response.status, data: response.data }
   } catch (error) {
     console.log("No se ha podido cambiar el password. Error:  "  + error);
+    return { 
+      status: error.response ? error.response.status : 500, 
+      data: error.response ? error.response.data : { message: 'Error desconocido' }
+    }
+  }
+};
+
+export const putAffiliate = async (user_id, affiliate_id) => {
+  try {
+    const token = conseguirToken();
+    const response = await axios.patch(baseURL+'/'+user_id+'/affiliates/' + affiliate_id,
+    {},{
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    
+    return { status: response.status, data: response.data }
+  } catch (error) {
+    console.log("No se ha podido actualizar el afiliado. Error:  "  + error);
     return { 
       status: error.response ? error.response.status : 500, 
       data: error.response ? error.response.data : { message: 'Error desconocido' }
@@ -207,4 +225,4 @@ export const removeUser = async (id) => {
     console.log('Error borrado al usuario ' + id + ": ", error);
     return { status: error.response?.status || 500, message: error.message };
 }
-}
+};

@@ -164,7 +164,7 @@ export const AfiliadosList = ({ closeAffiliates, hasRequiredRoles }) => {
                                     <div className="d-flex justify-content-between align-items-center">
                                         <div>
                                             <h5 className="mb-1">{affiliate.name}</h5>
-                                            <p className="mb-1">Apellido: {affiliate.lastname}</p>
+                                            <p className="mb-1">Apellidos: {affiliate.lastname}</p>
                                             <p className="mb-1">Sección: {affiliate.seccion}</p>
                                         </div>
                                         <div className="d-flex align-items-center">

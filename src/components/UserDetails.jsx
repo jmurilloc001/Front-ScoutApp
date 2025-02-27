@@ -5,10 +5,11 @@ import Particles from "./Particles/Particles";
 import { CambiarPassword } from "./UserUtil/CambiarPassword";
 import { CambiarUsername } from "./UserUtil/CambiarUsername";
 
-export const UserDetails = ({ handlerCloseUserDetails }) => {
+export const UserDetails = ({ handlerCloseUserDetails, hasRequiredRoles }) => {
     const [userInMoment, setUserInMoment] = useState({});
     const [showChangePassword, setShowChangePassword] = useState(false);
     const [showChangeUsername, setShowChangeUsername] = useState(false);
+    
 
     useEffect(() => {
         const fetchUserDetails = async () => {
@@ -53,15 +54,6 @@ export const UserDetails = ({ handlerCloseUserDetails }) => {
         }else {
             setShowChangeUsername(true);
         }
-    };
-
-    const handleAssignAffiliate = () => {
-        // Lógica para asignar un afiliado
-        Swal.fire({
-            title: 'Asignar Afiliado',
-            text: 'Funcionalidad para asignar un afiliado.',
-            icon: 'info'
-        });
     };
 
     return (
@@ -127,7 +119,6 @@ export const UserDetails = ({ handlerCloseUserDetails }) => {
                             showChangeUsername ? <>Cerrar cambiar username</> : <>Cambiar username</>
                         }
                     </button>
-                    <button className="btn btn-sm btn-primary me-2" onClick={handleAssignAffiliate}>Asignar afiliado</button>
                     <div className="text-center mt-4">
                         <button className="btn btn-danger mt-4" onClick={handlerCloseUserDetails}>Cerrar</button>
                     </div>

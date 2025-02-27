@@ -47,10 +47,10 @@ export const App = () => {
 
   const handlerUserDetails = () => {
     setShowUserDetails(true);
-  }
+  };
   const handlerCloseUserDetails = () => {
     setShowUserDetails(false);
-  }
+  };
 
   const reload = () => {
     window.location.reload();
@@ -146,7 +146,7 @@ export const App = () => {
       {showRegister && !showLogin && <RegisterForm  handlerDoRegister={handlerDoRegister}></RegisterForm>}
       {!showLogin && !showRegister && !showAffiliates && !showUserDetails && !showManageUsers && <InicioBody verifyIsLogin={verifyIsLogin} hasRequiredRoles={hasRequiredRoles} showAffiliates={handleAffiliatesListClick}></InicioBody>}
       {showAffiliates && <AfiliadosList closeAffiliates={handleCloseAffiliateList} hasRequiredRoles={hasRequiredRoles}></AfiliadosList>}
-      {showUserDetails && <UserDetails handlerCloseUserDetails={handlerCloseUserDetails}></UserDetails>}
+      {showUserDetails && <UserDetails handlerCloseUserDetails={handlerCloseUserDetails} hasRequiredRoles={hasRequiredRoles}></UserDetails>}
       {showManageUsers && <AdministrarUsers closeManageUsers={handlerCloseShowManageAdmin}></AdministrarUsers>}
     </>
   );

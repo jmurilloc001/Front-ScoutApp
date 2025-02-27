@@ -2,9 +2,22 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { getAllUsers, removeUser } from "../../services/UserService";
 import Particles from "../Particles/Particles";
+import { AsignarAfiliado } from "./AsignarAfiliado";
 
 export const AdministrarUsers = ({ closeManageUsers }) => {
     const [users, setUsers] = useState([]);
+    const [showPutAffiliate, setShowPutAffiliate] = useState(false);
+    const [selectedUserId, setSelectedUserId] = useState(0);
+
+
+    const handlerPutAffiliate = (user_id) => {
+        if (showPutAffiliate) {
+            setShowPutAffiliate(false);
+        }else{
+            setSelectedUserId(user_id);
+            setShowPutAffiliate(true);
+        }
+    };
 
     const handleDeleteUser = async (id) => {
         try {
@@ -50,16 +63,16 @@ export const AdministrarUsers = ({ closeManageUsers }) => {
         });
     };
 
-    useEffect(() => {
-        const fetchAffiliates = async () => {
-            const result = await getAllUsers();
-            if (result.status === 200) {
-                setUsers(result.data);
-            } else {
-                console.log("Error al obtener los usuarios: " + JSON.stringify(result.data));
-            }
-        };
+    const fetchAffiliates = async () => {
+        const result = await getAllUsers();
+        if (result.status === 200) {
+            setUsers(result.data);
+        } else {
+            console.log("Error al obtener los usuarios: " + JSON.stringify(result.data));
+        }
+    };
 
+    useEffect(() => {
         fetchAffiliates();
     }, []); // Asegúrate de que el array de dependencias está vacío
 
@@ -78,6 +91,9 @@ export const AdministrarUsers = ({ closeManageUsers }) => {
                 />
             </div>
                 <div className="container mt-5 text-white p-4">
+                {
+                    showPutAffiliate && <AsignarAfiliado getIdUserInMoment={selectedUserId} fetchAffiliates={fetchAffiliates}></AsignarAfiliado>
+                }
                     <h2 className="text-center mt-3 mb-4">Lista de Usuarios</h2>
                     <div className="text-center mb-4">
                     </div>
@@ -91,6 +107,17 @@ export const AdministrarUsers = ({ closeManageUsers }) => {
                                             <p className="mb-1">id: {user.id}</p>
                                         </div>
                                         <div className="d-flex align-items-center">
+                                            {
+                                                !user.name ? 
+                                                <button className="btn btn-sm btn-primary me-2" onClick={ () => handlerPutAffiliate(user.id)}>
+                                                {
+                                                    showPutAffiliate ? <>Cerrar asignar afiliado</> : <>Asignar afiliado</>
+                                                }
+                                                </button>
+                                                :
+                                                <span className="badge bg-success me-4">Asignado</span>
+                                            }
+                                            
                                             <button className="btn btn-danger" onClick={() => confirmDeleteUser(user.id)}>Borrar</button>
                                         </div>
                                     </div>
@@ -98,7 +125,7 @@ export const AdministrarUsers = ({ closeManageUsers }) => {
                             ))}
                         </ul>
                     ) : (
-                        <h1 className="text-center mt-5">NO SE HA PODIDO TRAER EL CONTENIDO</h1>
+                        <h1 className="text-center mt-5">NO SE HA PODIDO TRAER EL CONTENIDO O NO HAY USUARIOS</h1>
                     )}
                     <div className="text-center mt-4">
                         <button className="btn btn-primary" onClick={closeManageUsers}>Salir</button>
