@@ -4,18 +4,12 @@ const baseURL = 'http://localhost:8080/affiliates';
 
 export const getAffiliates = async () => {
     try {
-        const user = JSON.parse(sessionStorage.getItem('user')); // Obtén el objeto user del sessionStorage
-        const token = user?.token; // Extrae el token del objeto user
-        if (!token) {
-            throw new Error('Token no encontrado');
-        }
-  
+        const token = conseguirToken();
         const response = await axios.get(baseURL, {
             headers: {
                 'Authorization': `Bearer ${token}` // Añade el token en los encabezados
             }
         });
-
         if (response.status === 200) {
             const affiliates = response.data.map(affiliate => ({
                 id: affiliate.id,
@@ -30,7 +24,6 @@ export const getAffiliates = async () => {
                 data: affiliates
             };
         }
-  
         return response;
     } catch (error) {
         console.log(error);
@@ -39,7 +32,35 @@ export const getAffiliates = async () => {
             data: error.response ? error.response.data : { message: 'Error desconocido' }
         };
     }
-}
+};
+
+export const getAffiliateByName = async (name) => {
+    try {
+        const token = conseguirToken();
+        const response = await axios.get(baseURL + '/name/' + name, {
+            headers: {
+                'Authorization': `Bearer ${token}` // Añade el token en los encabezados
+            }
+        });
+        if (response.status === 200) {
+            return {
+                status: response.status,
+                data: response.data
+            };
+        }else{
+            return {
+                status: response.status,
+                message: response.data.message
+            }
+        }
+    } catch (error) {
+        console.log(error);
+        return {
+            status: error.response ? error.response.status : 500,
+            data: error.response ? error.response.data : { message: 'Error desconocido' }
+        };
+    }
+};
 
 export const update = async ({ id, name, lastname, birthday, inscripcionDate, seccion }) => {
     try {
@@ -64,7 +85,7 @@ export const update = async ({ id, name, lastname, birthday, inscripcionDate, se
     }
 };
 
-export const save = async({id, name, lastname, birthday, inscripcionDate, seccion}) => {
+export const save = async({ name, lastname, birthday, inscripcionDate, seccion}) => {
     try {
         const token = conseguirToken();
         const response = await axios.post(baseURL, {

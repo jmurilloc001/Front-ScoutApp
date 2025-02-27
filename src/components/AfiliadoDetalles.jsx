@@ -13,7 +13,7 @@ export const AfiliadoDetalles = ({ handlerAddAffiliate, affiliate, closeDetails,
 
     useEffect(() => {
         setForm(affiliate);
-    }, [affiliate]);
+    }, []);
 
     return (
         <div className="container d-flex justify-content-center align-items-center mt-5 grow" style={{ minHeight: '100vh' }}>

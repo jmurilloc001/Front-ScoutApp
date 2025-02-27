@@ -45,7 +45,13 @@ export const App = () => {
     setAffiliates(false);
   };
 
+  const handlerShowManageAdmin = () => {
+    setAllFalseWithoutLogin();
+    setShowManageUsers(true);
+  };
+
   const handlerUserDetails = () => {
+    setAllFalseWithoutLogin();
     setShowUserDetails(true);
   };
   const handlerCloseUserDetails = () => {
@@ -118,9 +124,7 @@ export const App = () => {
     return false;
   };
 
-  const handlerShowManageAdmin = () => {
-    setShowManageUsers(true);
-  };
+ 
 
   const handlerCloseShowManageAdmin = () => {
     setShowManageUsers(false);
@@ -132,7 +136,15 @@ export const App = () => {
     setShowLogin(false);
     setShowRegister(false);
     setShowManageUsers(false);
+    setShowUserDetails(false);
   };
+  const setAllFalseWithoutLogin = () => {
+    setAffiliates(false);
+    setShowLogin(false);
+    setShowRegister(false);
+    setShowManageUsers(false);
+    setShowUserDetails(false);
+  }
   
   useEffect(() => {
     verifyToken();
