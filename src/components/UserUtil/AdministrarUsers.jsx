@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { getAllUsers, removeUser } from "../../services/UserService";
+import { getAllUsers, getUserById, removeUser } from "../../services/UserService";
 import Particles from "../Particles/Particles";
 import { AsignarAfiliado } from "./AsignarAfiliado";
 import { AsignarRoles } from "./AsignarRoles";
 
-export const AdministrarUsers = ({ closeManageUsers, hasRequiredRoles }) => {
+export const AdministrarUsers = ({ closeManageUsers }) => {
     const [users, setUsers] = useState([]);
     const [showPutAffiliate, setShowPutAffiliate] = useState(false);
     const [showAddRole, setShowAddRole] = useState(false);
     const [selectedUserId, setSelectedUserId] = useState(0);
+    const [selectedUserUsername, setSelectedUserUsername] = useState("");
 
 
     const handlerPutAffiliate = (user_id) => {
@@ -21,13 +22,15 @@ export const AdministrarUsers = ({ closeManageUsers, hasRequiredRoles }) => {
         }
     };
 
-    const handlerAddRole = (user_id) => {
+    const handlerAddRole = (username) => {
+        setSelectedUserUsername(username);
         if(showAddRole){
             setShowAddRole(false);
         }else{
             setShowAddRole(true);
         }
-    }
+    };
+    
 
     const handleDeleteUser = async (id) => {
         try {
@@ -105,7 +108,7 @@ export const AdministrarUsers = ({ closeManageUsers, hasRequiredRoles }) => {
                     showPutAffiliate && <AsignarAfiliado getIdUserInMoment={selectedUserId} fetchAffiliates={fetchAffiliates}></AsignarAfiliado>
                 }
                 {
-                    showAddRole && <AsignarRoles hasRequiredRoles={hasRequiredRoles}></AsignarRoles>
+                    showAddRole && <AsignarRoles username={selectedUserUsername}></AsignarRoles>
                 }
                     <h2 className="text-center mt-3 mb-4">Lista de Usuarios</h2>
                     <div className="text-center mb-4">
@@ -131,7 +134,11 @@ export const AdministrarUsers = ({ closeManageUsers, hasRequiredRoles }) => {
                                                 <span className="badge bg-success me-4">Asignado</span>
                                             }
                                             
-                                            <button className="btn btn-purple me-2" onClick={() => handlerAddRole(user.id)}>Asignar Roles</button>
+                                            <button className="btn btn-purple me-2" onClick={() => handlerAddRole(user.username)}>
+                                                {
+                                                    showAddRole ? <>Cerrar roles</> :<>Asignar Roles</>
+                                                }
+                                            </button>
                                             <button className="btn btn-danger" onClick={() => confirmDeleteUser(user.id)}>Borrar</button>
                                         </div>
                                     </div>

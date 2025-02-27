@@ -111,6 +111,24 @@ export const getUserByUsername = async (username) => {
   }
   }
 };
+export const getUserById = async (user_id) => {
+  try {
+    const token = conseguirToken();
+    const response = await axios.get(baseURL+'/'+user_id, {
+       headers: {
+           'Authorization': `Bearer ${token}`
+       }
+     });
+ 
+     return { status: response.status, data: response.data };
+   } catch (error) {
+   console.log('Error en la búsqueda del usuario: ' + username + ". Error: " + error);
+   return { 
+     status: error.response ? error.response.status : 500, 
+     data: error.response ? error.response.data : { message: 'Error desconocido' }
+   }
+   }
+};
 
 export const updateUsername = async (username, id) => {
   try {
@@ -172,6 +190,26 @@ export const putAffiliate = async (user_id, affiliate_id) => {
     return { status: response.status, data: response.data }
   } catch (error) {
     console.log("No se ha podido actualizar el afiliado. Error:  "  + error);
+    return { 
+      status: error.response ? error.response.status : 500, 
+      data: error.response ? error.response.data : { message: 'Error desconocido' }
+    }
+  }
+};
+
+export const addRole = async (user_id, rol) => {
+  try {
+    const token = conseguirToken();
+    const response = await axios.patch(baseURL+'/'+user_id+'/role/' + rol,
+    {},{
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    
+    return { status: response.status, data: response.data }
+  } catch (error) {
+    console.log("No se ha podido añadir el rol. Error:  "  + error);
     return { 
       status: error.response ? error.response.status : 500, 
       data: error.response ? error.response.data : { message: 'Error desconocido' }
