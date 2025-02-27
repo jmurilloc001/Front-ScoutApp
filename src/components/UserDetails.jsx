@@ -92,11 +92,7 @@ export const UserDetails = ({ handlerCloseUserDetails, hasRequiredRoles }) => {
         }
     };
 
-    const handlerAddAffiliateInView = async(newAffiliate) => {
-
-        //Primero guardo el afiliado
-        
-        
+    const handlerAddAffiliateInView = async(newAffiliate) => { 
         if (userInMoment.name === null) {
             const resultSaveAffiliate = await save({...newAffiliate})
         if (resultSaveAffiliate.status === 201) {

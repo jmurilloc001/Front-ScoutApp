@@ -124,8 +124,6 @@ export const App = () => {
     return false;
   };
 
- 
-
   const handlerCloseShowManageAdmin = () => {
     setShowManageUsers(false);
   };
@@ -159,7 +157,7 @@ export const App = () => {
       {!showLogin && !showRegister && !showAffiliates && !showUserDetails && !showManageUsers && <InicioBody verifyIsLogin={verifyIsLogin} hasRequiredRoles={hasRequiredRoles} showAffiliates={handleAffiliatesListClick}></InicioBody>}
       {showAffiliates && <AfiliadosList closeAffiliates={handleCloseAffiliateList} hasRequiredRoles={hasRequiredRoles}></AfiliadosList>}
       {showUserDetails && <UserDetails handlerCloseUserDetails={handlerCloseUserDetails} hasRequiredRoles={hasRequiredRoles}></UserDetails>}
-      {showManageUsers && <AdministrarUsers closeManageUsers={handlerCloseShowManageAdmin}></AdministrarUsers>}
+      {showManageUsers && <AdministrarUsers closeManageUsers={handlerCloseShowManageAdmin} hasRequiredRoles={hasRequiredRoles}></AdministrarUsers>}
     </>
   );
 };
