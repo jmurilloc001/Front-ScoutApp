@@ -1,7 +1,7 @@
 const avatar = 'src/assets/img/avatarBatman-removebg-preview.png';
 
 export const Cabecera = ({ onLoginClick, reloadPage, verifyIsLogin, onRegisterClick, handlerLogout, handlerUserDetails, handlerManageUsers, hasRequiredRole }) => {
-   const roleAdmin = ['ROLE_ADMIN'];
+   const roleAdminAndCordi = ['ROLE_ADMIN','ROLE_COORDI'];
     return (
       <>
       <div className="cabecera">
@@ -24,7 +24,7 @@ export const Cabecera = ({ onLoginClick, reloadPage, verifyIsLogin, onRegisterCl
                 <li className="nav-item">
                   <a className="nav-link" href="/#">Novedades</a>
                 </li>
-                {verifyIsLogin() && hasRequiredRole(roleAdmin) && 
+                {verifyIsLogin() && hasRequiredRole(roleAdminAndCordi) && 
                   <li className="nav-item">
                     <a className="nav-link" href="/#" onClick={handlerManageUsers}>Administrar Usuarios</a>
                   </li>

@@ -1,39 +1,69 @@
 import React, { useEffect, useState } from 'react';
-import { getRoles } from '../../services/UserService';
+import { addRole, getRoles, removeRole } from '../../services/UserService';
 import Swal from 'sweetalert2';
 
-const roles = ['ROLE_ADMIN', 'ROLE_USER', 'ROLE_COORDI', 'ROLE_SCOUTER'];
+const roles = ['ROLE_COORDI', 'ROLE_SCOUTER'];
 
-export const AsignarRoles = ({ username }) => {
+export const AsignarRoles = ({ username, user_id }) => {
     const [rolesAsignados, setRolesAsignados] = useState([]);
 
-    useEffect(() => {
-        const fetchRoles = async () => {
-            try {
-                const response = await getRoles(username);
-                if (response.status === 200) {
-                    console.log(response.data.map(rol => rol.name));
-                    
-                    setRolesAsignados(response.data.map(rol => rol.name));
-                } else {
-                    Swal.fire('Error', 'No se pudieron obtener los roles', 'error');
-                }
-            } catch (error) {
-                Swal.fire('Error', 'Error al obtener los roles', 'error');
+    const fetchRoles = async () => {
+        try {
+            const response = await getRoles(username);
+            if (response.status === 200) {
+                
+                setRolesAsignados(response.data.map(rol => rol.name));
+            } else {
+                Swal.fire('Error', 'No se pudieron obtener los roles', 'error');
             }
-        };
-
+        } catch (error) {
+            Swal.fire('Error', 'Error al obtener los roles', 'error');
+        }
+    };
+    useEffect(() => {
         fetchRoles();
     }, [username]);
 
     const tieneRol = (rol) => rolesAsignados.includes(rol);
 
-    const handlerAddRole = (rol) => {
-        // Lógica para añadir el rol
+    const handlerAddRole = async(rol) => {
+        const response = await addRole(user_id,rol);
+        if (response.status === 201) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Añadido exitosamente',
+                text: 'Rol añadido correctamente.',
+                showConfirmButton: false,
+                timer: 1500
+            });
+            fetchRoles();
+        }else{
+           Swal.fire({
+            icon: 'error',
+            title: 'Error STATUS: ' + response.status,
+            text: `Message: ${response.data.message}`,
+        });            
+        }
     };
 
-    const handlerRemoveRole = (rol) => {
-        // Lógica para eliminar el rol
+    const handlerRemoveRole = async(rol) => {
+        const response = await removeRole(user_id,rol);
+        if (response.status === 201) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Eliminado exitosamente',
+                text: 'Rol eliminado correctamente.',
+                showConfirmButton: false,
+                timer: 1500
+            });
+            fetchRoles();
+        }else{
+           Swal.fire({
+            icon: 'error',
+            title: 'Error STATUS: ' + response.status,
+            text: `Message: ${response.data.message}`,
+        });            
+        }
     };
 
     return (

@@ -91,7 +91,7 @@ export const getAllUsers = async () => {
      data: error.response ? error.response.data : { message: 'Error desconocido' }
    }
    }
-}
+};
 
 export const getUserByUsername = async (username) => {
   try {
@@ -111,6 +111,7 @@ export const getUserByUsername = async (username) => {
   }
   }
 };
+
 export const getUserById = async (user_id) => {
   try {
     const token = conseguirToken();
@@ -216,6 +217,28 @@ export const addRole = async (user_id, rol) => {
     }
   }
 };
+
+export const removeRole = async (user_id, rol) => {
+  try {
+    const token = conseguirToken();
+    const response = await axios.delete(baseURL+'/'+user_id+'/role/' + rol,
+    {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    
+    
+    return { status: response.status, data: response.data }
+  } catch (error) {
+    console.log("No se ha podido eliminar el rol. Error:  "  + error);
+    
+    return { 
+      status: error.response ? error.response.status : 500, 
+      data: error.response ? error.response.data : { message: 'Error desconocido' }
+    }
+  }
+}
 
 export const isTokenExpired = (token) => {
   if (!token) return true;

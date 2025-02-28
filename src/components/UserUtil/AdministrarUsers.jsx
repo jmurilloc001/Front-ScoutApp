@@ -13,6 +13,10 @@ export const AdministrarUsers = ({ closeManageUsers }) => {
     const [selectedUserUsername, setSelectedUserUsername] = useState("");
 
 
+    const currentUser = JSON.parse(sessionStorage.getItem('user'));
+    
+    const filteredUsers = users.filter(user => user.username !== 'admin' && user.username !== currentUser.username);
+
     const handlerPutAffiliate = (user_id) => {
         if (showPutAffiliate) {
             setShowPutAffiliate(false);
@@ -22,8 +26,9 @@ export const AdministrarUsers = ({ closeManageUsers }) => {
         }
     };
 
-    const handlerAddRole = (username) => {
+    const handlerAddRole = (username, user_id) => {
         setSelectedUserUsername(username);
+        setSelectedUserId(user_id);
         if(showAddRole){
             setShowAddRole(false);
         }else{
@@ -108,14 +113,14 @@ export const AdministrarUsers = ({ closeManageUsers }) => {
                     showPutAffiliate && <AsignarAfiliado getIdUserInMoment={selectedUserId} fetchAffiliates={fetchAffiliates}></AsignarAfiliado>
                 }
                 {
-                    showAddRole && <AsignarRoles username={selectedUserUsername}></AsignarRoles>
+                    showAddRole && <AsignarRoles username={selectedUserUsername} user_id={selectedUserId}></AsignarRoles>
                 }
                     <h2 className="text-center mt-3 mb-4">Lista de Usuarios</h2>
                     <div className="text-center mb-4">
                     </div>
                     {users.length > 0 ? (
                         <ul className="list-group">
-                            {users.map((user, index) => (
+                            {filteredUsers.map((user, index) => (
                                 <li key={index} className="list-group-item bg-dark text-white border-secondary mb-3 rounded shadow-sm grow">
                                     <div className="d-flex justify-content-between align-items-center">
                                         <div>
@@ -134,12 +139,12 @@ export const AdministrarUsers = ({ closeManageUsers }) => {
                                                 <span className="badge bg-success me-4">Asignado</span>
                                             }
                                             
-                                            <button className="btn btn-purple me-2" onClick={() => handlerAddRole(user.username)}>
+                                            <button className="btn btn-purple me-2" onClick={() => handlerAddRole(user.username, user.id)}>
                                                 {
                                                     showAddRole ? <>Cerrar roles</> :<>Asignar Roles</>
                                                 }
                                             </button>
-                                            <button className="btn btn-danger" onClick={() => confirmDeleteUser(user.id)}>Borrar</button>
+                                            <button className="btn btn-danger" onClick={() => confirmDeleteUser(user.username, user.id)}>Borrar</button>
                                         </div>
                                     </div>
                                 </li>
