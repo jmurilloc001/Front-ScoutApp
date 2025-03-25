@@ -249,15 +249,6 @@ export const isTokenExpired = (token) => {
   return false;
 };
 
-export const conseguirToken = () => {
-  const user = JSON.parse(sessionStorage.getItem('user')); // Obtén el objeto user del sessionStorage
-  const token = user?.token; // Extrae el token del objeto user
-  if (!token) {
-      throw new Error('Token no encontrado');
-  }
-  return token;
-};
-
 export const getIdByUsername = async (username) => {
   const response = await getUserByUsername(username);
   console.log(response);
@@ -286,4 +277,13 @@ export const removeUser = async (id) => {
     console.log('Error borrado al usuario ' + id + ": ", error);
     return { status: error.response?.status || 500, message: error.message };
 }
+};
+
+export const conseguirToken = () => {
+  const user = JSON.parse(sessionStorage.getItem('user')); // Obtén el objeto user del sessionStorage
+  const token = user?.token; // Extrae el token del objeto user
+  if (!token) {
+      throw new Error('Token no encontrado');
+  }
+  return token;
 };
