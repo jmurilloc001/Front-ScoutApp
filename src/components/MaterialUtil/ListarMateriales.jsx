@@ -214,7 +214,7 @@ export const ListarMateriales = ({ closeListMaterials }) => {
                             ))}
                         </tbody>
                     </table>
-                    <button className="btn btn-secondary" onClick={() => setShowAddForm(!showAddForm)} style={{ margin: '5px' }}>
+                    <button className="btn btn-primary" onClick={() => setShowAddForm(!showAddForm)} style={{ margin: '5px' }}>
                         {!showAddForm ? 'Añadir Material' : 'Cerrar Formulario'}
                     </button>
                     <button className="btn btn-secondary" onClick={closeListMaterials}>Cerrar</button>
