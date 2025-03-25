@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { formatDate, getCurrentDate } from "../../Utils/DateFormat";
 import Particles from "../Particles/Particles";
-import { getAllProducts, removeProduct, saveProduct } from '../../services/ProductService';
+import { getAllProducts, removeProduct, saveProduct, updateProduct } from '../../services/ProductService';
 import Swal from 'sweetalert2';
 
 export const ListarMateriales = ({ closeListMaterials }) => {
     const [materials, setMaterials] = useState([]);
     const [showAddForm, setShowAddForm] = useState(false);
     const [newMaterial, setNewMaterial] = useState({ name: '', price: '0', stock: '0', lastpurchase: getCurrentDate() });
+    const [editingMaterial, setEditingMaterial] = useState(null);
 
     useEffect(() => {
         const fetchMaterials = async () => {
@@ -27,12 +28,54 @@ export const ListarMateriales = ({ closeListMaterials }) => {
         fetchMaterials();
     }, []);
 
-    const handleAddMaterial = () => {
-        
-        const guardarNuevoMaterial = async () => {
-            //Guardo el nuevo material en la base de datos
-            if (validateForm()) {
-                const result = await saveProduct({...newMaterial});
+    const validateForm = () => {
+        const { name, price, stock, lastpurchase } = newMaterial;
+        if (!name || !price || !stock || !lastpurchase) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Por favor, completa todos los campos antes de guardar.'
+            });
+            return false;
+        }
+        const date = new Date(lastpurchase);
+        if (isNaN(date.getTime())) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Por favor, ingresa una fecha válida.'
+            });
+            return false;
+        }
+        return true;
+    };
+
+    const handleSaveMaterial = async () => {
+        if (validateForm()) {
+            if (editingMaterial) {
+                const result = await updateProduct({ ...newMaterial, id: editingMaterial.id });
+                if (result.status === 201) {
+                    setMaterials(materials.map(material => 
+                        material.id === editingMaterial.id ? { ...result.data } : material
+                    ));
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Modificado exitosamente',
+                        text: 'Se ha modificado el producto correctamente.',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    setEditingMaterial(null);
+                } else {
+                    console.log("Error al modificar el material: " + JSON.stringify(result.data));
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error Status: ' + result.status,
+                        text: 'Error al modificar el material en la base de datos'
+                    });
+                }
+            } else {
+                const result = await saveProduct({ ...newMaterial });
                 if (result.status === 201) {
                     setMaterials([...materials, { ...result.data }]);
                     Swal.fire({
@@ -42,9 +85,7 @@ export const ListarMateriales = ({ closeListMaterials }) => {
                         showConfirmButton: false,
                         timer: 1500
                     });
-                    setShowAddForm(false);
-                    setNewMaterial({ name: '', price: '0', stock: '0', lastpurchase: getCurrentDate() });      
-                } else{
+                } else {
                     console.log("Error al guardar el material: " + JSON.stringify(result.data));
                     Swal.fire({
                         icon: 'error',
@@ -53,15 +94,19 @@ export const ListarMateriales = ({ closeListMaterials }) => {
                     });
                 }
             }
-            
+            setShowAddForm(false);
+            setNewMaterial({ name: '', price: '0', stock: '0', lastpurchase: getCurrentDate() });
         }
-        
-        guardarNuevoMaterial();
+    };
+
+    const handleEditMaterial = (material) => {
+        setNewMaterial(material);
+        setEditingMaterial(material);
+        setShowAddForm(true);
     };
 
     const handleDeleteMaterial = (id) => {
-
-        const confirmDeleteMaterial= (id) => {
+        const confirmDeleteMaterial = (id) => {
             Swal.fire({
                 title: '¿Estás seguro?',
                 text: "No podrás revertir esto",
@@ -77,7 +122,7 @@ export const ListarMateriales = ({ closeListMaterials }) => {
             });
         };
 
-        const borrarMaterial = async (id ) => {
+        const borrarMaterial = async (id) => {
             const result = await removeProduct(id);
             if (result.status === 200) {
                 setMaterials(materials.filter(material => material.id !== id));
@@ -87,8 +132,8 @@ export const ListarMateriales = ({ closeListMaterials }) => {
                     text: 'Se ha borrado el producto correctamente.',
                     showConfirmButton: false,
                     timer: 1500
-                });   
-            } else{
+                });
+            } else {
                 console.log("Error al borrar el material: " + JSON.stringify(result.data));
                 Swal.fire({
                     icon: 'error',
@@ -97,31 +142,8 @@ export const ListarMateriales = ({ closeListMaterials }) => {
                 });
             }
         };
-        
-        confirmDeleteMaterial(id);
-        
-    };
 
-    const validateForm = () => {
-        const { name, price, stock, lastpurchase } = newMaterial;
-        if (!name || !price || !stock || !lastpurchase) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Por favor, completa todos los campos antes de guardar.'
-            });
-            return false;
-        };
-        const date = new Date(lastpurchase);
-        if (isNaN(date.getTime())) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Por favor, ingresa una fecha válida.'
-            });
-            return false;
-        };
-        return true;
+        confirmDeleteMaterial(id);
     };
 
     return (
@@ -141,7 +163,7 @@ export const ListarMateriales = ({ closeListMaterials }) => {
             {showAddForm && (
                 <div className='slide-in-right d-flex justify-content-center align-items-center' style={{ minHeight: '100vh' }}>
                     <div className="mt-5" style={{ width: '50%' }}>
-                        <h3 className="text-white">Añadir ,aterial</h3>
+                        <h3 className="text-white">{editingMaterial ? 'Modificar Material' : 'Añadir Nuevo Material'}</h3>
                         <form>
                             <div className="form-group">
                                 <label className="text-white">Nombre</label>
@@ -177,10 +199,12 @@ export const ListarMateriales = ({ closeListMaterials }) => {
                                     className="form-control bg-dark text-white"
                                     value={newMaterial.lastpurchase}
                                     onChange={(e) => setNewMaterial({ ...newMaterial, lastpurchase: e.target.value })}
+                                    style={{ color: '#ffffff', backgroundColor: '#333', borderColor: '#555' }}
                                 />
-                                
                             </div>
-                            <button type="button" className="btn btn-secondary mt-3" onClick={handleAddMaterial}>Guardar</button>
+                            <button type="button" className="btn btn-secondary mt-3" onClick={handleSaveMaterial}>
+                                {editingMaterial ? 'Guardar Cambios' : 'Guardar'}
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -191,7 +215,6 @@ export const ListarMateriales = ({ closeListMaterials }) => {
                     <table className="table table-dark table-striped">
                         <thead>
                             <tr>
-                                <th>ID</th>
                                 <th>Nombre</th>
                                 <th>Precio</th>
                                 <th>Stock</th>
@@ -202,12 +225,12 @@ export const ListarMateriales = ({ closeListMaterials }) => {
                         <tbody>
                             {materials.map(material => (
                                 <tr key={material.id}>
-                                    <td>{material.id}</td>
                                     <td>{material.name}</td>
                                     <td>{material.price} /u €</td>
                                     <td>{material.stock} unidades</td>
                                     <td>{material.lastpurchase !== 'N/A' && formatDate(material.lastpurchase)}</td>
                                     <td>
+                                        <button className="btn btn-warning" onClick={() => handleEditMaterial(material)} style={{margin:'3%'}}>Modificar</button>
                                         <button className="btn btn-danger" onClick={() => handleDeleteMaterial(material.id)}>Eliminar</button>
                                     </td>
                                 </tr>

@@ -54,6 +54,28 @@ export const saveProduct = async({ name, price, stock, lastpurchase}) => {
     }
 };
 
+export const updateProduct = async ({ id, name, price, stock, lastpurchase}) => {
+    try {
+        const token = conseguirToken();
+
+        const response = await axios.put(`${baseURL}/${id}`, {
+            name,
+            price,
+            stock,
+            lastpurchase
+        }, {
+            headers: {
+                'Authorization': `Bearer ${token}` // Añade el token en los encabezados
+            }
+        });
+
+        return { status: response.status, data: response.data };
+    } catch (error) {
+        console.error('Error updating data:', error);
+        return { status: error.response?.status || 500, message: error.message };
+    }
+};
+
 export const removeProduct = async(id) => {
     try {
         const token = conseguirToken();
@@ -68,6 +90,7 @@ export const removeProduct = async(id) => {
         return { status: error.response?.status || 500, message: error.message };
     }
 };
+
 
 export const conseguirToken = () => {
     const user = JSON.parse(sessionStorage.getItem('user')); // Obtén el objeto user del sessionStorage
