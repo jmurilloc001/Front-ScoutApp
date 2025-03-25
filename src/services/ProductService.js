@@ -2,7 +2,7 @@ import axios from "axios"
 
 const baseURL = 'http://localhost:8080/products';
 
-export const getAll = async() => {
+export const getAllProducts = async() => {
     try {
         const token = conseguirToken();
         const response = await axios.get(baseURL, {
@@ -33,6 +33,26 @@ export const getAll = async() => {
     }
 
 };
+
+export const saveProduct = async({ name, price, stock, lastpurchase}) => {
+    try {
+        const token = conseguirToken();
+        const response = await axios.post(baseURL, {
+            name,
+            price,
+            stock,
+            lastpurchase
+        },{
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return { status: response.status, data: response.data };
+    } catch (error) {
+        console.log('Error guardando el nuevo producto:', error);
+        return { status: error.response?.status || 500, message: error.message };
+    }
+}
 
 export const conseguirToken = () => {
     const user = JSON.parse(sessionStorage.getItem('user')); // Obtén el objeto user del sessionStorage

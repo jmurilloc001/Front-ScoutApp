@@ -9,6 +9,7 @@ import { AfiliadosList } from './components/AfiliadosList';
 import { UserDetails } from './components/UserDetails';
 import Swal from 'sweetalert2';
 import { AdministrarUsers } from './components/UserUtil/AdministrarUsers';
+import { ListarMateriales } from './components/MaterialUtil/ListarMateriales';
 
 export const App = () => {
   const [showLogin, setShowLogin] = useState(false);
@@ -16,6 +17,7 @@ export const App = () => {
   const [showAffiliates, setAffiliates] = useState(false);
   const [showUserDetails, setShowUserDetails] = useState(false);
   const [showManageUsers, setShowManageUsers] = useState(false);
+  const [showListMaterials, setShowListMaterials] = useState(false);
   const [user, setUser] = useState({
     username: '',
     token: '',
@@ -26,6 +28,7 @@ export const App = () => {
   const handleLoginClick = () => {
     setShowLogin(true);
   };
+
   const handleRegisterClick = () => {
     setShowLogin(false);
     setShowRegister(true);
@@ -34,13 +37,16 @@ export const App = () => {
   const handleAffiliatesListClick = () => {
     setAffiliates(true);
   };
+
   const handleCloseLogin = () => {
     setShowLogin(false);
   };
+
   const handleCloseRegister = () => {
     setShowRegister(false);
     
   };
+
   const handleCloseAffiliateList = () => {
     setAffiliates(false);
   };
@@ -49,6 +55,13 @@ export const App = () => {
     setAllFalseWithoutLogin();
     setShowManageUsers(true);
   };
+
+  const handlerShowListMaterials = () => {
+    setShowListMaterials(true);
+  }
+  const handlerCloseListMaterials = () => {
+    setShowListMaterials(false);
+  }
 
   const handlerUserDetails = () => {
     setAllFalseWithoutLogin();
@@ -135,6 +148,7 @@ export const App = () => {
     setShowRegister(false);
     setShowManageUsers(false);
     setShowUserDetails(false);
+    setShowListMaterials(false);
   };
   const setAllFalseWithoutLogin = () => {
     setAffiliates(false);
@@ -142,6 +156,7 @@ export const App = () => {
     setShowRegister(false);
     setShowManageUsers(false);
     setShowUserDetails(false);
+    setShowListMaterials(false);
   }
   
   useEffect(() => {
@@ -154,10 +169,11 @@ export const App = () => {
       <Cabecera onLoginClick={handleLoginClick} reloadPage={reload} verifyIsLogin={verifyIsLogin} onLogoutClick={handleLogout} onRegisterClick={handleRegisterClick} handlerLogout={handleLogout} handlerUserDetails={handlerUserDetails} handlerManageUsers={handlerShowManageAdmin} hasRequiredRole={hasRequiredRoles}></Cabecera>
       {showLogin && <LoginForm handlerDoLogin={handlerDoLogin}></LoginForm>}
       {showRegister && !showLogin && <RegisterForm  handlerDoRegister={handlerDoRegister}></RegisterForm>}
-      {!showLogin && !showRegister && !showAffiliates && !showUserDetails && !showManageUsers && <InicioBody verifyIsLogin={verifyIsLogin} hasRequiredRoles={hasRequiredRoles} showAffiliates={handleAffiliatesListClick}></InicioBody>}
+      {!showLogin && !showRegister && !showAffiliates && !showUserDetails && !showManageUsers && !showListMaterials && <InicioBody verifyIsLogin={verifyIsLogin} hasRequiredRoles={hasRequiredRoles} showAffiliates={handleAffiliatesListClick} showListMaterials={handlerShowListMaterials}></InicioBody>}
       {showAffiliates && <AfiliadosList closeAffiliates={handleCloseAffiliateList} hasRequiredRoles={hasRequiredRoles}></AfiliadosList>}
       {showUserDetails && <UserDetails handlerCloseUserDetails={handlerCloseUserDetails} hasRequiredRoles={hasRequiredRoles}></UserDetails>}
       {showManageUsers && <AdministrarUsers closeManageUsers={handlerCloseShowManageAdmin} ></AdministrarUsers>}
+      {showListMaterials && <ListarMateriales closeListMaterials={handlerCloseListMaterials}></ListarMateriales>}
     </>
   );
 };

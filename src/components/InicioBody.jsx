@@ -1,7 +1,7 @@
 import TextPressure from './TextPressure/TextPressure';
 import Particles from './Particles/Particles';
 
-export const InicioBody = ({ verifyIsLogin, hasRequiredRoles, showAffiliates }) => {
+export const InicioBody = ({ verifyIsLogin, hasRequiredRoles, showAffiliates, showListMaterials }) => {
     return (
         <>
         <div className="squares-background">
@@ -79,7 +79,7 @@ export const InicioBody = ({ verifyIsLogin, hasRequiredRoles, showAffiliates }) 
                             </div>
                         </div>
                         <div className='col-md-6 mb-4'>
-                            <div className='card bg-dark text-white m-2' style={{ borderRadius: '30px', height: '200px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}> {/* Contenedor más grande */}
+                            <div className='card bg-dark text-white m-2' style={{ borderRadius: '30px', height: '200px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={showListMaterials}> {/* Contenedor más grande */}
                                 <div className='card-body text-center'>
                                     <i className='fas fa-box-open' style={{ fontSize: '5rem', marginBottom: '10px' }}></i> {/* Icono de caja abierta */}
                                     <h5 className='card-title'>Material</h5>
