@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { formatDate, getCurrentDate } from "../../Utils/DateFormat";
 import Particles from "../Particles/Particles";
-import { getAllProducts, saveProduct } from '../../services/ProductService';
+import { getAllProducts, removeProduct, saveProduct } from '../../services/ProductService';
 import Swal from 'sweetalert2';
 
 export const ListarMateriales = ({ closeListMaterials }) => {
@@ -57,6 +57,49 @@ export const ListarMateriales = ({ closeListMaterials }) => {
         }
         
         guardarNuevoMaterial();
+    };
+
+    const handleDeleteMaterial = (id) => {
+
+        const confirmDeleteMaterial= (id) => {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "No podrás revertir esto",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminarlo'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    borrarMaterial(id);
+                }
+            });
+        };
+
+        const borrarMaterial = async (id ) => {
+            const result = await removeProduct(id);
+            if (result.status === 200) {
+                setMaterials(materials.filter(material => material.id !== id));
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Borrado exitosamente',
+                    text: 'Se ha borrado el producto correctamente.',
+                    showConfirmButton: false,
+                    timer: 1500
+                });   
+            } else{
+                console.log("Error al borrar el material: " + JSON.stringify(result.data));
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error Status: ' + result.status,
+                    text: 'Error al borrar el material en la base de datos'
+                });
+            }
+        };
+        
+        confirmDeleteMaterial(id);
+        
     };
 
     const validateForm = () => {
@@ -153,6 +196,7 @@ export const ListarMateriales = ({ closeListMaterials }) => {
                                 <th>Precio</th>
                                 <th>Stock</th>
                                 <th>Última compra</th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -163,6 +207,9 @@ export const ListarMateriales = ({ closeListMaterials }) => {
                                     <td>{material.price} /u €</td>
                                     <td>{material.stock} unidades</td>
                                     <td>{material.lastpurchase !== 'N/A' && formatDate(material.lastpurchase)}</td>
+                                    <td>
+                                        <button className="btn btn-danger" onClick={() => handleDeleteMaterial(material.id)}>Eliminar</button>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>

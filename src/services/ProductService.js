@@ -52,7 +52,22 @@ export const saveProduct = async({ name, price, stock, lastpurchase}) => {
         console.log('Error guardando el nuevo producto:', error);
         return { status: error.response?.status || 500, message: error.message };
     }
-}
+};
+
+export const removeProduct = async(id) => {
+    try {
+        const token = conseguirToken();
+        const response = await axios.delete(baseURL+'/'+id, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return { status: response.status };
+    }catch (error){
+        console.log('Error borrando el producto ' + id + ": ", error);
+        return { status: error.response?.status || 500, message: error.message };
+    }
+};
 
 export const conseguirToken = () => {
     const user = JSON.parse(sessionStorage.getItem('user')); // Obtén el objeto user del sessionStorage
