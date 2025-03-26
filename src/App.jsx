@@ -10,6 +10,7 @@ import { UserDetails } from './components/UserDetails';
 import Swal from 'sweetalert2';
 import { AdministrarUsers } from './components/UserUtil/AdministrarUsers';
 import { ListarMateriales } from './components/MaterialUtil/ListarMateriales';
+import { QuienesSomos } from './components/InformationWebs/QuienesSomos';
 
 export const App = () => {
   const [showLogin, setShowLogin] = useState(false);
@@ -18,6 +19,7 @@ export const App = () => {
   const [showUserDetails, setShowUserDetails] = useState(false);
   const [showManageUsers, setShowManageUsers] = useState(false);
   const [showListMaterials, setShowListMaterials] = useState(false);
+  const [showQuienesSomos, setShowQuienesSomos] = useState(false);
   const [user, setUser] = useState({
     username: '',
     token: '',
@@ -61,6 +63,10 @@ export const App = () => {
   }
   const handlerCloseListMaterials = () => {
     setShowListMaterials(false);
+  }
+
+  const handlerShowQuienesSomos = () => {
+    setShowQuienesSomos(true);
   }
 
   const handlerUserDetails = () => {
@@ -142,13 +148,8 @@ export const App = () => {
   };
   
   const setAllFalse = () => {
-    setAffiliates(false);
+    setAllFalseWithoutLogin();
     setIsLogin(false);
-    setShowLogin(false);
-    setShowRegister(false);
-    setShowManageUsers(false);
-    setShowUserDetails(false);
-    setShowListMaterials(false);
   };
   const setAllFalseWithoutLogin = () => {
     setAffiliates(false);
@@ -157,6 +158,7 @@ export const App = () => {
     setShowManageUsers(false);
     setShowUserDetails(false);
     setShowListMaterials(false);
+    setShowQuienesSomos(false);
   }
   
   useEffect(() => {
@@ -169,11 +171,12 @@ export const App = () => {
       <Cabecera onLoginClick={handleLoginClick} reloadPage={reload} verifyIsLogin={verifyIsLogin} onLogoutClick={handleLogout} onRegisterClick={handleRegisterClick} handlerLogout={handleLogout} handlerUserDetails={handlerUserDetails} handlerManageUsers={handlerShowManageAdmin} hasRequiredRole={hasRequiredRoles}></Cabecera>
       {showLogin && <LoginForm handlerDoLogin={handlerDoLogin}></LoginForm>}
       {showRegister && !showLogin && <RegisterForm  handlerDoRegister={handlerDoRegister}></RegisterForm>}
-      {!showLogin && !showRegister && !showAffiliates && !showUserDetails && !showManageUsers && !showListMaterials && <InicioBody verifyIsLogin={verifyIsLogin} hasRequiredRoles={hasRequiredRoles} showAffiliates={handleAffiliatesListClick} showListMaterials={handlerShowListMaterials}></InicioBody>}
+      {!showLogin && !showRegister && !showAffiliates && !showUserDetails && !showManageUsers && !showListMaterials && !showQuienesSomos && <InicioBody verifyIsLogin={verifyIsLogin} hasRequiredRoles={hasRequiredRoles} showAffiliates={handleAffiliatesListClick} showListMaterials={handlerShowListMaterials} showQuienesSomos={handlerShowQuienesSomos}></InicioBody>}
       {showAffiliates && <AfiliadosList closeAffiliates={handleCloseAffiliateList} hasRequiredRoles={hasRequiredRoles}></AfiliadosList>}
       {showUserDetails && <UserDetails handlerCloseUserDetails={handlerCloseUserDetails} hasRequiredRoles={hasRequiredRoles}></UserDetails>}
       {showManageUsers && <AdministrarUsers closeManageUsers={handlerCloseShowManageAdmin} ></AdministrarUsers>}
       {showListMaterials && <ListarMateriales closeListMaterials={handlerCloseListMaterials}></ListarMateriales>}
+      {showQuienesSomos && <QuienesSomos></QuienesSomos>}
     </>
   );
 };

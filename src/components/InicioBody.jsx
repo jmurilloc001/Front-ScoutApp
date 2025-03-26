@@ -1,7 +1,7 @@
 import TextPressure from './TextPressure/TextPressure';
 import Particles from './Particles/Particles';
 
-export const InicioBody = ({ verifyIsLogin, hasRequiredRoles, showAffiliates, showListMaterials }) => {
+export const InicioBody = ({ verifyIsLogin, hasRequiredRoles, showAffiliates, showListMaterials, showQuienesSomos }) => {
     return (
         <>
         <div className="squares-background">
@@ -40,7 +40,7 @@ export const InicioBody = ({ verifyIsLogin, hasRequiredRoles, showAffiliates, sh
             </div>
             <div className='row mt-5'>
                 <div className='col-12'>
-                    <div className='card bg-dark text-white mb-4' style={{ borderRadius: '30px', height: '200px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}> {/* Contenedor más grande */}
+                    <div className='card bg-dark text-white mb-4' style={{ borderRadius: '30px', height: '200px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={showQuienesSomos}> {/* Contenedor más grande */}
                         <div className='card-body text-center'>
                             <i className='fas fa-users' style={{ fontSize: '5rem', marginBottom: '10px' }}></i> {/* Icono de usuarios */}
                             <h5 className='card-title'>¿Quiénes somos?</h5>
