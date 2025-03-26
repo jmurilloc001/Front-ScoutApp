@@ -31,7 +31,40 @@ export const getAllProducts = async() => {
             data: error.response ? error.response.data : { message: 'Error desconocido' }
         };
     }
+};
 
+export const getAllProductsPage = async (page = 0, size = 8) => {
+    try {
+        const token = conseguirToken();
+        const response = await axios.get(`${baseURL}/page?page=${page}&size=${size}`, {
+            headers: {
+                'Authorization': `Bearer ${token}` // Añade el token en los encabezados
+            }
+        });
+        if (response.status === 200) {
+            const products = response.data.content.map(product => ({
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                stock: product.stock || 0,
+                lastpurchase: product.lastpurchase || 'N/A'
+            }));
+            return {
+                status: response.status,
+                data: products,
+                totalPages: response.data.totalPages,
+                totalElements: response.data.totalElements,
+                currentPage: response.data.number
+            };
+        }
+        return response;
+    } catch (error) {
+        console.log(error);
+        return {
+            status: error.response ? error.response.status : 500,
+            data: error.response ? error.response.data : { message: 'Error desconocido' }
+        };
+    }
 };
 
 export const saveProduct = async({ name, price, stock, lastpurchase}) => {

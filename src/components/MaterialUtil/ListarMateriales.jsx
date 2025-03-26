@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { formatDate, getCurrentDate } from "../../Utils/DateFormat";
 import Particles from "../Particles/Particles";
-import { getAllProducts, removeProduct, saveProduct, updateProduct } from '../../services/ProductService';
+import { getAllProducts, getAllProductsPage, removeProduct, saveProduct, updateProduct } from '../../services/ProductService';
 import Swal from 'sweetalert2';
 
 export const ListarMateriales = ({ closeListMaterials }) => {
@@ -9,24 +9,23 @@ export const ListarMateriales = ({ closeListMaterials }) => {
     const [showAddForm, setShowAddForm] = useState(false);
     const [newMaterial, setNewMaterial] = useState({ name: '', price: '0', stock: '0', lastpurchase: getCurrentDate() });
     const [editingMaterial, setEditingMaterial] = useState(null);
+    const [page, setPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
+    const [size, setSize] = useState(8);
 
     useEffect(() => {
         const fetchMaterials = async () => {
-            const result = await getAllProducts();
-            if (result.status === 200) {
-                setMaterials(result.data);
+            const response = await getAllProductsPage(page, size);
+            if (response.status === 200) {
+                setMaterials(response.data);
+                setTotalPages(response.totalPages);
             } else {
-                console.log("Error al obtener los materiales: " + JSON.stringify(result.data));
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error Status: ' + result.status,
-                    text: 'Error al obtener los materiales de la base de datos'
-                });
+                console.log('Error fetching materials:', response.data);
             }
         };
 
         fetchMaterials();
-    }, []);
+    }, [page,size]);
 
     const validateForm = () => {
         const { name, price, stock, lastpurchase } = newMaterial;
@@ -162,39 +161,50 @@ export const ListarMateriales = ({ closeListMaterials }) => {
             </div>
             
             <div className='slide-in-left' style={{ marginTop: '6%' }}>
-                <div className="container mt-5">
-                    <h2 className="text-white">Lista de material</h2>
-                    <table className="table table-dark table-striped">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Precio</th>
-                                <th>Stock</th>
-                                <th>Última compra</th>
-                                <th>Acciones</th>
+            <div className="container mt-5">
+                <h2 className="text-white">Lista de material</h2>
+                <table className="table table-dark table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Precio</th>
+                            <th>Stock</th>
+                            <th>Última compra</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {materials.map(material => (
+                            <tr key={material.id}>
+                                <td>{material.name}</td>
+                                <td>{material.price} /u €</td>
+                                <td>{material.stock} unidades</td>
+                                <td>{material.lastpurchase !== 'N/A' && formatDate(material.lastpurchase)}</td>
+                                <td>
+                                    <button className="btn btn-warning" onClick={() => handleEditMaterial(material)} style={{margin:'3%'}}>Modificar</button>
+                                    <button className="btn btn-danger" onClick={() => handleDeleteMaterial(material.id)}>Eliminar</button>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {materials.map(material => (
-                                <tr key={material.id}>
-                                    <td>{material.name}</td>
-                                    <td>{material.price} /u €</td>
-                                    <td>{material.stock} unidades</td>
-                                    <td>{material.lastpurchase !== 'N/A' && formatDate(material.lastpurchase)}</td>
-                                    <td>
-                                        <button className="btn btn-warning" onClick={() => handleEditMaterial(material)} style={{margin:'3%'}}>Modificar</button>
-                                        <button className="btn btn-danger" onClick={() => handleDeleteMaterial(material.id)}>Eliminar</button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                        ))}
+                    </tbody>
+                </table>
+                <div className="d-flex justify-content-between">
                     <button className="btn btn-primary" onClick={() => setShowAddForm(!showAddForm)} style={{ margin: '5px' }}>
                         {!showAddForm ? 'Añadir Material' : 'Cerrar Formulario'}
                     </button>
                     <button className="btn btn-secondary" onClick={closeListMaterials}>Cerrar</button>
                 </div>
+                <div className="d-flex justify-content-center mt-3">
+                    <button className="btn btn-outline-primary" onClick={() => setPage(page - 1)} disabled={page === 0}>
+                        Anterior
+                    </button>
+                    <span className="mx-3" style={{color:'white'}}>Página {page + 1} de {totalPages}</span>
+                    <button className="btn btn-outline-primary" onClick={() => setPage(page + 1)} disabled={page + 1 === totalPages}>
+                        Siguiente
+                    </button>
+                </div>
             </div>
+        </div>
             {showAddForm && (
                 <div className='slide-in-right d-flex justify-content-center align-items-center' style={{ minHeight: '50vh' }}>
                     <div className="mt-2" style={{ width: '50%' }}>
