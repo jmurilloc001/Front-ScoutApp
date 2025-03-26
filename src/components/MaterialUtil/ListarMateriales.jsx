@@ -160,9 +160,44 @@ export const ListarMateriales = ({ closeListMaterials }) => {
                     disableRotation={false}
                 />
             </div>
+            
+            <div className='slide-in-left' style={{ marginTop: '6%' }}>
+                <div className="container mt-5">
+                    <h2 className="text-white">Lista de material</h2>
+                    <table className="table table-dark table-striped">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Precio</th>
+                                <th>Stock</th>
+                                <th>Última compra</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {materials.map(material => (
+                                <tr key={material.id}>
+                                    <td>{material.name}</td>
+                                    <td>{material.price} /u €</td>
+                                    <td>{material.stock} unidades</td>
+                                    <td>{material.lastpurchase !== 'N/A' && formatDate(material.lastpurchase)}</td>
+                                    <td>
+                                        <button className="btn btn-warning" onClick={() => handleEditMaterial(material)} style={{margin:'3%'}}>Modificar</button>
+                                        <button className="btn btn-danger" onClick={() => handleDeleteMaterial(material.id)}>Eliminar</button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                    <button className="btn btn-primary" onClick={() => setShowAddForm(!showAddForm)} style={{ margin: '5px' }}>
+                        {!showAddForm ? 'Añadir Material' : 'Cerrar Formulario'}
+                    </button>
+                    <button className="btn btn-secondary" onClick={closeListMaterials}>Cerrar</button>
+                </div>
+            </div>
             {showAddForm && (
-                <div className='slide-in-right d-flex justify-content-center align-items-center' style={{ minHeight: '100vh' }}>
-                    <div className="mt-5" style={{ width: '50%' }}>
+                <div className='slide-in-right d-flex justify-content-center align-items-center' style={{ minHeight: '50vh' }}>
+                    <div className="mt-2" style={{ width: '50%' }}>
                         <h3 className="text-white">{editingMaterial ? 'Modificar Material' : 'Añadir Nuevo Material'}</h3>
                         <form>
                             <div className="form-group">
@@ -209,40 +244,6 @@ export const ListarMateriales = ({ closeListMaterials }) => {
                     </div>
                 </div>
             )}
-            <div className='slide-in-left' style={{ marginTop: '6%' }}>
-                <div className="container mt-5">
-                    <h2 className="text-white">Lista de material</h2>
-                    <table className="table table-dark table-striped">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Precio</th>
-                                <th>Stock</th>
-                                <th>Última compra</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {materials.map(material => (
-                                <tr key={material.id}>
-                                    <td>{material.name}</td>
-                                    <td>{material.price} /u €</td>
-                                    <td>{material.stock} unidades</td>
-                                    <td>{material.lastpurchase !== 'N/A' && formatDate(material.lastpurchase)}</td>
-                                    <td>
-                                        <button className="btn btn-warning" onClick={() => handleEditMaterial(material)} style={{margin:'3%'}}>Modificar</button>
-                                        <button className="btn btn-danger" onClick={() => handleDeleteMaterial(material.id)}>Eliminar</button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                    <button className="btn btn-primary" onClick={() => setShowAddForm(!showAddForm)} style={{ margin: '5px' }}>
-                        {!showAddForm ? 'Añadir Material' : 'Cerrar Formulario'}
-                    </button>
-                    <button className="btn btn-secondary" onClick={closeListMaterials}>Cerrar</button>
-                </div>
-            </div>
         </>
     );
 };

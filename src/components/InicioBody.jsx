@@ -66,6 +66,15 @@ export const InicioBody = ({ verifyIsLogin, hasRequiredRoles, showAffiliates, sh
                         </div>
                     </div>
                 </div>
+                <div className='col-12'>
+                    <div className='card bg-dark text-white m-2' style={{ borderRadius: '30px', height: '200px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}> {/* Contenedor más grande */}
+                        <div className='card-body text-center'>
+                            <i className='fas fa-pencil-alt' style={{ fontSize: '5rem', marginBottom: '10px' }}></i> {/* Icono de lápiz */}
+                            <h5 className='card-title'>Posts Recientes</h5>
+                                <p className='card-text'>Acceder a los posts de los afiliados</p>
+                        </div>
+                    </div>
+                </div>       
                 {
                     verifyIsLogin() && hasRequiredRoles(['ROLE_ADMIN','ROLE_SCOUTER','ROLE_COORDI']) && (
                         <>
@@ -84,6 +93,21 @@ export const InicioBody = ({ verifyIsLogin, hasRequiredRoles, showAffiliates, sh
                                     <i className='fas fa-box-open' style={{ fontSize: '5rem', marginBottom: '10px' }}></i> {/* Icono de caja abierta */}
                                     <h5 className='card-title'>Material</h5>
                                     <p className='card-text'>Acceder al material del grupo</p>
+                                </div>
+                            </div>
+                        </div>
+                        </>
+                    )
+                }
+                {
+                    verifyIsLogin() && hasRequiredRoles(['ROLE_ADMIN','ROLE_COORDI']) && (
+                        <>
+                        <div className='col-12'>
+                            <div className='card bg-dark text-white m-2' style={{ borderRadius: '30px', height: '200px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={showListMaterials}> {/* Contenedor más grande */}
+                                <div className='card-body text-center'>
+                                    <i className='fas fa-campground' style={{ fontSize: '5rem', marginBottom: '10px' }}></i> {/* Icono de tienda de campaña */}
+                                    <h5 className='card-title'>Material por acampada</h5>
+                                    <p className='card-text'>Acceder al material usado por acampada</p>
                                 </div>
                             </div>
                         </div>
