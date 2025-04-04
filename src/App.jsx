@@ -3,7 +3,7 @@ import './App.css';
 import { Cabecera } from './components/Cabecera';
 import { LoginForm } from './components/LoginForm';
 import { RegisterForm } from './components/RegisterForm';
-import { doLogin, doRegister, isTokenExpired } from './services/UserService';
+import { doLogin, doRegister, getIdAffiliateByUsername, isTokenExpired } from './services/UserService';
 import { InicioBody } from './components/InicioBody';
 import { AfiliadosList } from './components/AfiliadosList';
 import { UserDetails } from './components/UserDetails';
@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 import { AdministrarUsers } from './components/UserUtil/AdministrarUsers';
 import { ListarMateriales } from './components/MaterialUtil/ListarMateriales';
 import { QuienesSomos } from './components/InformationWebs/QuienesSomos';
+import { ListarPosts } from './components/PostsUtil/ListarPosts';
 
 export const App = () => {
   const [showLogin, setShowLogin] = useState(false);
@@ -20,11 +21,14 @@ export const App = () => {
   const [showManageUsers, setShowManageUsers] = useState(false);
   const [showListMaterials, setShowListMaterials] = useState(false);
   const [showQuienesSomos, setShowQuienesSomos] = useState(false);
+  const [showPosts, setShowPosts] = useState(false);
+
   const [user, setUser] = useState({
     username: '',
     token: '',
-    message: ''
+    message: '',
   });
+
   const [isLogin, setIsLogin] = useState(false);
 
   const handleLoginClick = () => {
@@ -63,6 +67,13 @@ export const App = () => {
   }
   const handlerCloseListMaterials = () => {
     setShowListMaterials(false);
+  }
+
+  const handlerShowPosts = () => {
+    setShowPosts(true);
+  }
+  const handlerClosePosts = () => {
+    setShowPosts(false);
   }
 
   const handlerShowQuienesSomos = () => {
@@ -159,6 +170,7 @@ export const App = () => {
     setShowUserDetails(false);
     setShowListMaterials(false);
     setShowQuienesSomos(false);
+    setShowPosts(false);
   }
   
   useEffect(() => {
@@ -171,12 +183,13 @@ export const App = () => {
       <Cabecera onLoginClick={handleLoginClick} reloadPage={reload} verifyIsLogin={verifyIsLogin} onLogoutClick={handleLogout} onRegisterClick={handleRegisterClick} handlerLogout={handleLogout} handlerUserDetails={handlerUserDetails} handlerManageUsers={handlerShowManageAdmin} hasRequiredRole={hasRequiredRoles}></Cabecera>
       {showLogin && <LoginForm handlerDoLogin={handlerDoLogin}></LoginForm>}
       {showRegister && !showLogin && <RegisterForm  handlerDoRegister={handlerDoRegister}></RegisterForm>}
-      {!showLogin && !showRegister && !showAffiliates && !showUserDetails && !showManageUsers && !showListMaterials && !showQuienesSomos && <InicioBody verifyIsLogin={verifyIsLogin} hasRequiredRoles={hasRequiredRoles} showAffiliates={handleAffiliatesListClick} showListMaterials={handlerShowListMaterials} showQuienesSomos={handlerShowQuienesSomos}></InicioBody>}
+      {!showLogin && !showRegister && !showAffiliates && !showUserDetails && !showManageUsers && !showListMaterials && !showQuienesSomos && !showPosts && <InicioBody verifyIsLogin={verifyIsLogin} hasRequiredRoles={hasRequiredRoles} showAffiliates={handleAffiliatesListClick} showListMaterials={handlerShowListMaterials} showQuienesSomos={handlerShowQuienesSomos} showPosts={handlerShowPosts}></InicioBody>}
       {showAffiliates && <AfiliadosList closeAffiliates={handleCloseAffiliateList} hasRequiredRoles={hasRequiredRoles}></AfiliadosList>}
       {showUserDetails && <UserDetails handlerCloseUserDetails={handlerCloseUserDetails} hasRequiredRoles={hasRequiredRoles}></UserDetails>}
       {showManageUsers && <AdministrarUsers closeManageUsers={handlerCloseShowManageAdmin} ></AdministrarUsers>}
       {showListMaterials && <ListarMateriales closeListMaterials={handlerCloseListMaterials}></ListarMateriales>}
       {showQuienesSomos && <QuienesSomos></QuienesSomos>}
+      {showPosts && <ListarPosts user={user}></ListarPosts>}
     </>
   );
 };

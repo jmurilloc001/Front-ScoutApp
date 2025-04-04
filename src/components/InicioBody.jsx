@@ -1,7 +1,7 @@
 import TextPressure from './TextPressure/TextPressure';
 import Particles from './Particles/Particles';
 
-export const InicioBody = ({ verifyIsLogin, hasRequiredRoles, showAffiliates, showListMaterials, showQuienesSomos }) => {
+export const InicioBody = ({ verifyIsLogin, hasRequiredRoles, showAffiliates, showListMaterials, showQuienesSomos, showPosts }) => {
     return (
         <>
         <div className="squares-background">
@@ -66,15 +66,19 @@ export const InicioBody = ({ verifyIsLogin, hasRequiredRoles, showAffiliates, sh
                         </div>
                     </div>
                 </div>
-                <div className='col-12'>
-                    <div className='card bg-dark text-white m-2' style={{ borderRadius: '30px', height: '200px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}> {/* Contenedor más grande */}
-                        <div className='card-body text-center'>
-                            <i className='fas fa-pencil-alt' style={{ fontSize: '5rem', marginBottom: '10px' }}></i> {/* Icono de lápiz */}
-                            <h5 className='card-title'>Posts Recientes</h5>
-                                <p className='card-text'>Acceder a los posts de los afiliados</p>
+                {
+                    verifyIsLogin() && 
+                    <div className='col-12'>
+                        <div className='card bg-dark text-white m-2' style={{ borderRadius: '30px', height: '200px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={showPosts}> {/* Contenedor más grande */}
+                            <div className='card-body text-center'>
+                                <i className='fas fa-pencil-alt' style={{ fontSize: '5rem', marginBottom: '10px' }}></i> {/* Icono de lápiz */}
+                                <h5 className='card-title'>Posts Recientes</h5>
+                                    <p className='card-text'>Acceder a los posts de los afiliados</p>
+                            </div>
                         </div>
-                    </div>
-                </div>       
+                    </div>    
+                }
+                   
                 {
                     verifyIsLogin() && hasRequiredRoles(['ROLE_ADMIN','ROLE_SCOUTER','ROLE_COORDI']) && (
                         <>

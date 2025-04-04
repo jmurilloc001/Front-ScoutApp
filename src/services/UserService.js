@@ -112,6 +112,25 @@ export const getUserByUsername = async (username) => {
   }
 };
 
+export const getIdAffiliateByUsername = async (username) => {
+  try {
+    const token = conseguirToken();
+    const response = await axios.get(baseURL+'/'+username+"/affiliateId", {
+       headers: {
+           'Authorization': `Bearer ${token}`
+       }
+     });
+ 
+     return { status: response.status, data: response.data };
+   } catch (error) {
+   console.log('Error en la búsqueda del id del affiliado: ' + username + ". Error: " + error);
+   return { 
+     status: error.response ? error.response.status : 500, 
+     data: error.response ? error.response.data : { message: 'Error desconocido' }
+    }
+   }
+}
+
 export const getUserById = async (user_id) => {
   try {
     const token = conseguirToken();

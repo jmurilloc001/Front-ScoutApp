@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { formatDate, getCurrentDate } from "../../Utils/DateFormat";
 import Particles from "../Particles/Particles";
-import { getAllProducts, getAllProductsPage, removeProduct, saveProduct, updateProduct } from '../../services/ProductService';
+import { getAllProductsPage, removeProduct, saveProduct, updateProduct } from '../../services/ProductService';
 import Swal from 'sweetalert2';
 
 export const ListarMateriales = ({ closeListMaterials }) => {
