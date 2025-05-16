@@ -4,12 +4,15 @@ import Particles from "../Particles/Particles";
 import { getIdAffiliateByUsername } from "../../services/UserService";
 import { CrearPostsFormulario } from "./CrearPostsFormulario";
 import Swal from "sweetalert2";
+import { DetallePost } from "./DetallePost";
 
 export const ListarPosts = ({user}) => {
 
     const [posts, setPosts] = useState([]);
     const [affiliateId, setAffiliateId] = useState(0);
     const [showCreateForm, setShowCreateForm] = useState(false);
+    const [currentPost, setCurrentPost] = useState({});
+    const [showDetails, setShowDetails] = useState(false);
 
     useEffect(() => {
         const fetchPosts = async () => {
@@ -72,6 +75,8 @@ export const ListarPosts = ({user}) => {
         return text;
     };
     const handlerShowPostForm = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setShowDetails(false);
         if (showCreateForm) {
             setShowCreateForm(false);
         }else{
@@ -126,6 +131,25 @@ export const ListarPosts = ({user}) => {
             confirmDeletePost(id);
         };
 
+    const handlerShowDetails = (post) => {
+        setShowCreateForm(false);
+        setCurrentPost({...post})
+        if (showDetails) {
+                setShowDetails(false);
+        }else {
+            scrollToTop();
+            setShowDetails(true);
+        }   
+    };
+
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    };
+    
+
     return (
         <>
             <div style={{
@@ -151,11 +175,30 @@ export const ListarPosts = ({user}) => {
             <div className="d-flex justify-content-center align-items-start vh-100" style={{ paddingTop: '120px' }}>
                 <div className="container text-center">
                     {checkIfHaveAffiliate && (
-                        <button type="button" className="btn btn-success mb-4" onClick={handlerShowPostForm}>
-                            {!showCreateForm ? <p>Añadir</p> : <p>Cerrar formulario</p>}
+                        <button 
+                        type="button" 
+                        className="btn btn-success rounded-circle" 
+                        style={{
+                            position: 'fixed',
+                            bottom: '5vh',
+                            right: '5vw',
+                            width: '6vw',
+                            height: '6vw',
+                            fontSize: '4vw',
+                            lineHeight: '6vw',
+                            textAlign: 'center',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            boxShadow: '0px 4px 6px rgba(0,0,0,0.2)'
+                        }}
+                        onClick={handlerShowPostForm}
+                        >
+                            {!showCreateForm ? '+' : '×'}
                         </button>
                     )}
                     {showCreateForm && <CrearPostsFormulario idAffiliado={affiliateId} closeForm={handlerShowPostForm} addPost={handlerAddPostToList} />}
+                    {showDetails && <DetallePost post={currentPost}></DetallePost>}
                     <div className="row mt-5">
                         {posts.length > 0 ? (
                             posts.map(post => (
@@ -165,13 +208,12 @@ export const ListarPosts = ({user}) => {
                                             <h5 className="card-title">{post.title}</h5>
                                             <p className="card-text">Creado por: <b>{post.affiliate.name}</b></p>
                                             <p>{truncateText(post.description, 100)}</p> {/* Limita la descripción a 100 caracteres */}
-                                            <button onClick={() => viewPostDetail(post.id)} className="btn btn-primary mb-2">
+                                            <button onClick={() => handlerShowDetails({...post})} className="btn btn-primary mb-2">
                                                 Ver Detalle
                                             </button>
                                             <p><b style={{fontSize:'50px'}}>{getTypeLabel(post.type)}</b></p>
                                             {checkIdAffiliateWithPost(post.affiliate.id) && (
                                                 <div className="btn-group" role="group" aria-label="Basic example">
-                                                    <button type="button" className="btn btn-warning">Editar</button>
                                                     <button type="button" className="btn btn-danger" onClick={() => handlerDeletePost(post.id)}>Borrar</button>
                                                 </div>
                                             )}

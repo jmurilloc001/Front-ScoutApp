@@ -6,6 +6,10 @@ export const CrearPostsFormulario = ({idAffiliado, closeForm, addPost}) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [type, setType] = useState('RECEIVE');
+    const [email, setEmail] = useState('');
+    const [tlf, setTlf] = useState(0);
+
+    
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -20,7 +24,9 @@ export const CrearPostsFormulario = ({idAffiliado, closeForm, addPost}) => {
                     title: title,
                     description: description,
                     affiliate: affiliado,
-                    type: type
+                    type: type,
+                    email: email,
+                    tlf: tlf
                 }
             )
             if (result.status === 201) {
@@ -31,7 +37,7 @@ export const CrearPostsFormulario = ({idAffiliado, closeForm, addPost}) => {
                     showConfirmButton: false,
                     timer: 1500
                 });
-
+                
                 console.log(result.data);
                 const post = result.data;
                 addPost({
@@ -44,7 +50,9 @@ export const CrearPostsFormulario = ({idAffiliado, closeForm, addPost}) => {
                         lastname: post.affiliateDto.lastname,
                         seccion: post.affiliateDto.seccion,
                     },
-                    title: post.title
+                    title: post.title,
+                    email: email,
+                    tlf: tlf
                 });
                 closeForm();           
             }else {
@@ -58,7 +66,7 @@ export const CrearPostsFormulario = ({idAffiliado, closeForm, addPost}) => {
         }
 
         guardarPost();
-        console.log({ title, description, type });
+        console.log({ title, description, type, email, tlf });
     };
 
     return (
@@ -101,6 +109,26 @@ export const CrearPostsFormulario = ({idAffiliado, closeForm, addPost}) => {
                                 <option value="RECEIVE">NECESITO</option>
                                 <option value="GIVE">DOY</option>
                             </select>
+                        </div>
+                        <div className="form-group">
+                        <label htmlFor="email" className="text-white">Email</label>
+                        <input
+                            type="email"
+                            className="form-control text-white bg-dark"
+                            id="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="phone" className="text-white">Teléfono</label>
+                            <input
+                                type="tel"
+                                className="form-control text-white bg-dark"
+                                id="phone"
+                                value={tlf}
+                                onChange={(e) => setTlf(e.target.value)}
+                            />
                         </div>
                         <button type="submit" className="btn btn-primary mt-3">Crear</button>
                     </form>

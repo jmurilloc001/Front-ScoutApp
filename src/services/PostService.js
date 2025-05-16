@@ -21,7 +21,9 @@ export const getAllPosts = async () => {
                     lastname: post.affiliateDto.lastname,
                     seccion: post.affiliateDto.seccion,
                 },
-                title: post.title
+                title: post.title,
+                email: post.email,
+                tlf: post.tlf
             }));
             return {
                 status: response.status,
@@ -37,14 +39,17 @@ export const getAllPosts = async () => {
         };
     }
 };
-export const savePost= async({ title, description, affiliate, type}) => {
+export const savePost= async({ title, description, affiliate, type, tlf, email}) => {
     try {
         const token = conseguirToken();
+                
         const response = await axios.post(baseURL, {
             title,
             description,
             affiliate,
-            type
+            type,
+            email,
+            tlf
         },{
             headers: {
                 'Authorization': `Bearer ${token}`
