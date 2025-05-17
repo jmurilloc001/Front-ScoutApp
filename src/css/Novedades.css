@@ -1,0 +1,45 @@
+.novedades-container {
+    background: linear-gradient(to bottom, #2a0038, #4b007a); /* Degradado oscuro */
+    padding: 20px;
+    margin-bottom: 3rem;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    color: white; /* Texto en blanco para contraste */
+}
+
+.card {
+    background-color: rgba(255, 255, 255, 0.1); /* Fondo semi-transparente */
+    padding: 2rem;
+    backdrop-filter: blur(10px); /* Efecto de vidrio */
+    transition: transform 0.3s ease-in-out;
+    border-radius: 8px;
+    overflow: hidden;
+    color: white; /* Asegurar buen contraste */
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 3px solid #8b008b; /* Borde violeta */
+}
+
+.btn-success {
+    background-color: #6d0080; /* Tonalidad morada más fuerte */
+    border: none;
+}
+
+.btn-success:hover {
+    background-color: #4b007a; /* Oscurece un poco al pasar el mouse */
+}
+
+h1 {
+    color: #d8baff; /* Un tono lavanda que resalta */
+    font-family: "Trebuchet MS", sans-serif;
+}
+body{
+    padding-top: 5rem;
+}

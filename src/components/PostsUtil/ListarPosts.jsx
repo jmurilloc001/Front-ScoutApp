@@ -172,7 +172,7 @@ export const ListarPosts = ({user}) => {
                     disableRotation={false}
                 />
             </div>
-            <div className="d-flex justify-content-center align-items-start vh-100" style={{ paddingTop: '120px' }}>
+            <div className="d-flex justify-content-center align-items-start vh-100" style={{ paddingTop: '10px' }}>
                 <div className="container text-center">
                     {checkIfHaveAffiliate && (
                         <button 
@@ -184,7 +184,7 @@ export const ListarPosts = ({user}) => {
                             right: '5vw',
                             width: '6vw',
                             height: '6vw',
-                            fontSize: '4vw',
+                            fontSize: '3vw',
                             lineHeight: '6vw',
                             textAlign: 'center',
                             display: 'flex',

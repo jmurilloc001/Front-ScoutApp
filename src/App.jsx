@@ -12,6 +12,7 @@ import { AdministrarUsers } from './components/UserUtil/AdministrarUsers';
 import { ListarMateriales } from './components/MaterialUtil/ListarMateriales';
 import { QuienesSomos } from './components/InformationWebs/QuienesSomos';
 import { ListarPosts } from './components/PostsUtil/ListarPosts';
+import Novedades from './components/InformationWebs/Novedades';
 
 export const App = () => {
   const [showLogin, setShowLogin] = useState(false);
@@ -22,6 +23,7 @@ export const App = () => {
   const [showListMaterials, setShowListMaterials] = useState(false);
   const [showQuienesSomos, setShowQuienesSomos] = useState(false);
   const [showPosts, setShowPosts] = useState(false);
+  const [showNews, setShowNews] = useState(false);
 
   const [user, setUser] = useState({
     username: '',
@@ -78,6 +80,15 @@ export const App = () => {
 
   const handlerShowQuienesSomos = () => {
     setShowQuienesSomos(true);
+  }
+
+  const handlerShowNews = () => {
+    if (showNews == false) {
+      setShowNews(true);
+    }else{
+      setShowNews(false);
+    }
+    
   }
 
   const handlerUserDetails = () => {
@@ -183,13 +194,14 @@ export const App = () => {
       <Cabecera onLoginClick={handleLoginClick} reloadPage={reload} verifyIsLogin={verifyIsLogin} onLogoutClick={handleLogout} onRegisterClick={handleRegisterClick} handlerLogout={handleLogout} handlerUserDetails={handlerUserDetails} handlerManageUsers={handlerShowManageAdmin} hasRequiredRole={hasRequiredRoles}></Cabecera>
       {showLogin && <LoginForm handlerDoLogin={handlerDoLogin}></LoginForm>}
       {showRegister && !showLogin && <RegisterForm  handlerDoRegister={handlerDoRegister}></RegisterForm>}
-      {!showLogin && !showRegister && !showAffiliates && !showUserDetails && !showManageUsers && !showListMaterials && !showQuienesSomos && !showPosts && <InicioBody verifyIsLogin={verifyIsLogin} hasRequiredRoles={hasRequiredRoles} showAffiliates={handleAffiliatesListClick} showListMaterials={handlerShowListMaterials} showQuienesSomos={handlerShowQuienesSomos} showPosts={handlerShowPosts}></InicioBody>}
+      {!showLogin && !showRegister && !showAffiliates && !showUserDetails && !showManageUsers && !showListMaterials && !showQuienesSomos && !showPosts && !showNews && <InicioBody verifyIsLogin={verifyIsLogin} hasRequiredRoles={hasRequiredRoles} showAffiliates={handleAffiliatesListClick} showListMaterials={handlerShowListMaterials} showQuienesSomos={handlerShowQuienesSomos} showPosts={handlerShowPosts} showNews={handlerShowNews}></InicioBody>}
       {showAffiliates && <AfiliadosList closeAffiliates={handleCloseAffiliateList} hasRequiredRoles={hasRequiredRoles}></AfiliadosList>}
       {showUserDetails && <UserDetails handlerCloseUserDetails={handlerCloseUserDetails} hasRequiredRoles={hasRequiredRoles}></UserDetails>}
       {showManageUsers && <AdministrarUsers closeManageUsers={handlerCloseShowManageAdmin} ></AdministrarUsers>}
       {showListMaterials && <ListarMateriales closeListMaterials={handlerCloseListMaterials}></ListarMateriales>}
       {showQuienesSomos && <QuienesSomos></QuienesSomos>}
       {showPosts && <ListarPosts user={user}></ListarPosts>}
+      {showNews && <Novedades></Novedades>}
     </>
   );
 };
