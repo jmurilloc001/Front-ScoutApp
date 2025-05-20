@@ -177,7 +177,7 @@ const Novedades = ({ hasRole, handleGoBack }) => {
                                         <div className="card-body">
                                             <h5 className="card-title">{novedad.title}</h5>
                                             <p className="card-text">{novedad.description}</p>
-                                            <p className="text-muted"><small><b>{novedad.date}</b></small></p>
+                                            <p className="text-date"><small><b>{novedad.date}</b></small></p>
                                             <button
                                                 className="btn btn-danger"
                                                 onClick={() => handleDeleteNews(novedad.id)}
