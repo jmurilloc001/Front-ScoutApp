@@ -5,8 +5,9 @@ import { getIdAffiliateByUsername } from "../../services/UserService";
 import { CrearPostsFormulario } from "./CrearPostsFormulario";
 import Swal from "sweetalert2";
 import { DetallePost } from "./DetallePost";
+import { BackButton } from "../CommonsComponents";
 
-export const ListarPosts = ({user}) => {
+export const ListarPosts = ({user, onBack}) => {
 
     const [posts, setPosts] = useState([]);
     const [affiliateId, setAffiliateId] = useState(0);
@@ -225,6 +226,7 @@ export const ListarPosts = ({user}) => {
                             <p className="text-white">No hay posts disponibles.</p>
                         )}
                     </div>
+                    <BackButton onBack={onBack}></BackButton>
                 </div>
             </div>
         </>

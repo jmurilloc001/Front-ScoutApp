@@ -79,7 +79,12 @@ export const App = () => {
   }
 
   const handlerShowQuienesSomos = () => {
-    setShowQuienesSomos(true);
+    if (showQuienesSomos) {
+      setShowQuienesSomos(false)
+    }else{
+      setShowQuienesSomos(true);
+    }
+    
   }
 
   const handlerShowNews = () => {
@@ -88,7 +93,6 @@ export const App = () => {
     }else{
       setShowNews(false);
     }
-    
   }
 
   const handlerUserDetails = () => {
@@ -199,9 +203,9 @@ export const App = () => {
       {showUserDetails && <UserDetails handlerCloseUserDetails={handlerCloseUserDetails} hasRequiredRoles={hasRequiredRoles}></UserDetails>}
       {showManageUsers && <AdministrarUsers closeManageUsers={handlerCloseShowManageAdmin} ></AdministrarUsers>}
       {showListMaterials && <ListarMateriales closeListMaterials={handlerCloseListMaterials}></ListarMateriales>}
-      {showQuienesSomos && <QuienesSomos></QuienesSomos>}
-      {showPosts && <ListarPosts user={user}></ListarPosts>}
-      {showNews && <Novedades></Novedades>}
+      {showQuienesSomos && <QuienesSomos onBack={handlerShowQuienesSomos}></QuienesSomos>}
+      {showPosts && <ListarPosts user={user} onBack={handlerClosePosts}></ListarPosts>}
+      {showNews && <Novedades hasRole={hasRequiredRoles} handleGoBack={handlerShowNews}></Novedades>}
     </>
   );
 };

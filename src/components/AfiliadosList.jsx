@@ -3,6 +3,7 @@ import { getAffiliates, remove, save, update } from "../services/AffiliateServic
 import Particles from "./Particles/Particles";
 import { AfiliadoDetalles } from "./AfiliadoDetalles";
 import Swal from "sweetalert2";
+import { BackButton } from "./CommonsComponents";
 
 const emptyAffiliate = {
     id: 0, name: '', lastname:'', birthday:'', inscripcionDate:'', seccion:'FAMILIA'
@@ -152,6 +153,7 @@ export const AfiliadosList = ({ closeAffiliates, hasRequiredRoles }) => {
             {affiliateDetails ? (
                 <AfiliadoDetalles affiliate={affiliateDetails} closeDetails={closeDetails} handlerAddAffiliate={handlerAddAffiliate} hasRequiredRoles={hasRequiredRoles}/>
             ) : (
+                <>
                 <div className="container mt-5 text-white p-4">
                     <h2 className="text-center mt-3 mb-4">Lista de Afiliados</h2>
                     <div className="text-center mb-4">
@@ -182,6 +184,8 @@ export const AfiliadosList = ({ closeAffiliates, hasRequiredRoles }) => {
                         <button className="btn btn-primary" onClick={closeAffiliates}>Salir</button>
                     </div>
                 </div>
+                <BackButton onBack={closeAffiliates}></BackButton>
+                </>
             )}
         </>
     );

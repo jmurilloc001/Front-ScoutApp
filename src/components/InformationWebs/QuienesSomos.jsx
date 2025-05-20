@@ -1,7 +1,8 @@
+import { BackButton } from "../CommonsComponents";
 import Particles from "../Particles/Particles";
 import RollingGallery from "../RollingGallery/RollingGallery";
 
-export const QuienesSomos = () => {
+export const QuienesSomos = ({onBack}) => {
     return (
         <>
             <div className="squares-background" style={{ backgroundColor: '#39045c', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -90,6 +91,7 @@ export const QuienesSomos = () => {
                     </div>
                 </div>
             </div>
+            <BackButton onBack={onBack}></BackButton>
         </>
     );
 }

@@ -28,11 +28,13 @@
 }
 
 .btn-success {
+    z-index: 1000;
     background-color: #6d0080; /* Tonalidad morada más fuerte */
     border: none;
 }
 
 .btn-success:hover {
+    z-index: 1000;
     background-color: #4b007a; /* Oscurece un poco al pasar el mouse */
 }
 
