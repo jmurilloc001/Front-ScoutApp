@@ -63,6 +63,26 @@ export const removeNew= async(id) => {
     }
 };
 
+export const updatenew = async(id,{title, description, date, urlImage}) => {
+    try {
+        const token = conseguirToken();
+        const response = await axios.put(baseURL+'/'+id, {
+            title,
+            description,
+            date,
+            urlImage
+        },{
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return { status: response.status };
+    }catch (error){
+        console.log('Error editando la noticia ' + id + ": ", error);
+        return { status: error.response?.status || 500, message: error.message };
+    }
+}
+
 export const conseguirToken = () => {
     const user = JSON.parse(sessionStorage.getItem('user'));
     const token = user?.token;

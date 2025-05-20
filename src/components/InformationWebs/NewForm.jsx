@@ -1,12 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-const NewFormModal = ({ show, onCreate }) => {
+const NewFormModal = ({ show, onCreate, onUpdate, initialData }) => {
     const [formData, setFormData] = useState({
         title: "",
         description: "",
         date: "",
         urlImage: ""
     });
+
+    useEffect(() => {
+        if (initialData) {
+            setFormData(initialData); // Inicializa el formulario con los datos existentes
+        }
+    }, [initialData]);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -15,7 +21,11 @@ const NewFormModal = ({ show, onCreate }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (formData.title && formData.description && formData.date) {
-            onCreate(formData);
+            if (initialData) {
+                onUpdate(formData); // Llama a la función de actualización si hay datos iniciales
+            } else {
+                onCreate(formData); // Llama a la función de creación si no hay datos iniciales
+            }
             setFormData({ title: "", description: "", date: "", urlImage: "" });
             show();
         }
@@ -26,7 +36,9 @@ const NewFormModal = ({ show, onCreate }) => {
     return (
         <div className="modal-overlay">
             <div className="modal-container">
-                <h2 className="text-center">📝 Crear Nueva Noticia</h2>
+                <h2 className="text-center">
+                    {initialData ? "✏️ Editar Noticia" : "📝 Crear Nueva Noticia"}
+                </h2>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3">
                         <label className="form-label">Título</label>
@@ -71,7 +83,9 @@ const NewFormModal = ({ show, onCreate }) => {
                         />
                     </div>
                     <div className="d-flex justify-content-between">
-                        <button type="submit" className="btn btn-success">Guardar</button>
+                        <button type="submit" className="btn btn-success">
+                            {initialData ? "Actualizar" : "Guardar"}
+                        </button>
                     </div>
                 </form>
             </div>
