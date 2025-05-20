@@ -12,7 +12,7 @@ export const RegisterForm = ({handlerDoRegister}) => {
 
   return (
     <>
-      <div style={{ width: '100vw', height: '100vh', position: 'relative', overflow: 'hidden',backgroundColor:'#353535' }}>
+      <div style={{ width: '100vw', height: '100vh', position: 'relative', overflow: 'hidden' }}>
         <Particles
           particleColors={['#39045c', '#ffffff']}
           particleCount={500}
@@ -32,7 +32,7 @@ export const RegisterForm = ({handlerDoRegister}) => {
               console.log(form);
               handlerDoRegister(form);
 
-              setForm(initialDataForm); //lo limpio
+              setForm(initialDataForm);
               
             }}>
               <div className="mb-3">
