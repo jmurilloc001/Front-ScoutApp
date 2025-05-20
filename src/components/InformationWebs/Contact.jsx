@@ -6,7 +6,7 @@ export const Contact = ({onBack}) => {
         <>
         <div className="contacto-container">
             <div className="container py-5">
-                <h1 className="text-center mb-4">📬 Contáctanos</h1>
+                <h1 className="text-center mb-4">📬 <b>Contáctanos</b></h1>
                 <p className="text-center mb-5">
                     Si tienes alguna pregunta o deseas unirte a nuestro grupo scout, no dudes en escribirnos.
                 </p>
