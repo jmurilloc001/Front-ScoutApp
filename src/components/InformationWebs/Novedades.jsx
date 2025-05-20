@@ -178,12 +178,15 @@ const Novedades = ({ hasRole, handleGoBack }) => {
                                             <h5 className="card-title">{novedad.title}</h5>
                                             <p className="card-text">{novedad.description}</p>
                                             <p className="text-date"><small><b>{novedad.date}</b></small></p>
-                                            <button
+                                            {
+                                                canCreate && <button
                                                 className="btn btn-danger"
                                                 onClick={() => handleDeleteNews(novedad.id)}
                                             >
                                                 Borrar
                                             </button>
+                                            }
+                                            
                                         </div>
                                     </div>
                                 </div>

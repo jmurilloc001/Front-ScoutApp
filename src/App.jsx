@@ -13,6 +13,7 @@ import { ListarMateriales } from './components/MaterialUtil/ListarMateriales';
 import { QuienesSomos } from './components/InformationWebs/QuienesSomos';
 import { ListarPosts } from './components/PostsUtil/ListarPosts';
 import Novedades from './components/InformationWebs/Novedades';
+import { Contact } from './components/InformationWebs/Contact';
 
 export const App = () => {
   const [showLogin, setShowLogin] = useState(false);
@@ -24,6 +25,7 @@ export const App = () => {
   const [showQuienesSomos, setShowQuienesSomos] = useState(false);
   const [showPosts, setShowPosts] = useState(false);
   const [showNews, setShowNews] = useState(false);
+  const [showContact, setShowContact] = useState(false)
 
   const [user, setUser] = useState({
     username: '',
@@ -34,10 +36,12 @@ export const App = () => {
   const [isLogin, setIsLogin] = useState(false);
 
   const handleLoginClick = () => {
+    setAllFalse();
     setShowLogin(true);
   };
 
   const handleRegisterClick = () => {
+    setAllFalse();
     setShowLogin(false);
     setShowRegister(true);
   };
@@ -84,10 +88,21 @@ export const App = () => {
     }else{
       setShowQuienesSomos(true);
     }
-    
+  }
+
+  const handlerShowContact = () => {
+    setAllFalseWithoutLogin();
+    setShowLogin(false);
+    if (showContact) {
+      setShowContact(false);
+    }else{
+      setShowContact(true);
+    }
   }
 
   const handlerShowNews = () => {
+    setAllFalseWithoutLogin();
+    setShowLogin(false);
     if (showNews == false) {
       setShowNews(true);
     }else{
@@ -186,6 +201,8 @@ export const App = () => {
     setShowListMaterials(false);
     setShowQuienesSomos(false);
     setShowPosts(false);
+    setShowContact(false);
+    setShowNews(false);
   }
   
   useEffect(() => {
@@ -195,10 +212,10 @@ export const App = () => {
   
   return (
     <>
-      <Cabecera onLoginClick={handleLoginClick} reloadPage={reload} verifyIsLogin={verifyIsLogin} onLogoutClick={handleLogout} onRegisterClick={handleRegisterClick} handlerLogout={handleLogout} handlerUserDetails={handlerUserDetails} handlerManageUsers={handlerShowManageAdmin} hasRequiredRole={hasRequiredRoles}></Cabecera>
-      {showLogin && <LoginForm handlerDoLogin={handlerDoLogin}></LoginForm>}
-      {showRegister && !showLogin && <RegisterForm  handlerDoRegister={handlerDoRegister}></RegisterForm>}
-      {!showLogin && !showRegister && !showAffiliates && !showUserDetails && !showManageUsers && !showListMaterials && !showQuienesSomos && !showPosts && !showNews && <InicioBody verifyIsLogin={verifyIsLogin} hasRequiredRoles={hasRequiredRoles} showAffiliates={handleAffiliatesListClick} showListMaterials={handlerShowListMaterials} showQuienesSomos={handlerShowQuienesSomos} showPosts={handlerShowPosts} showNews={handlerShowNews}></InicioBody>}
+      <Cabecera onLoginClick={handleLoginClick} reloadPage={reload} verifyIsLogin={verifyIsLogin} onLogoutClick={handleLogout} onRegisterClick={handleRegisterClick} handlerLogout={handleLogout} handlerUserDetails={handlerUserDetails} handlerManageUsers={handlerShowManageAdmin} hasRequiredRole={hasRequiredRoles} showContact={handlerShowContact} showNews={handlerShowNews}></Cabecera>
+      {showLogin && <LoginForm handlerDoLogin={handlerDoLogin} onBack={handleCloseLogin}></LoginForm>}
+      {showRegister && !showLogin && <RegisterForm  handlerDoRegister={handlerDoRegister} onBack={handleCloseRegister}></RegisterForm>}
+      {!showLogin && !showRegister && !showAffiliates && !showUserDetails && !showManageUsers && !showListMaterials && !showQuienesSomos && !showPosts && !showNews && !showContact && <InicioBody verifyIsLogin={verifyIsLogin} hasRequiredRoles={hasRequiredRoles} showAffiliates={handleAffiliatesListClick} showListMaterials={handlerShowListMaterials} showQuienesSomos={handlerShowQuienesSomos} showPosts={handlerShowPosts} showNews={handlerShowNews} showContact={handlerShowContact}></InicioBody>}
       {showAffiliates && <AfiliadosList closeAffiliates={handleCloseAffiliateList} hasRequiredRoles={hasRequiredRoles}></AfiliadosList>}
       {showUserDetails && <UserDetails handlerCloseUserDetails={handlerCloseUserDetails} hasRequiredRoles={hasRequiredRoles}></UserDetails>}
       {showManageUsers && <AdministrarUsers closeManageUsers={handlerCloseShowManageAdmin} ></AdministrarUsers>}
@@ -206,6 +223,7 @@ export const App = () => {
       {showQuienesSomos && <QuienesSomos onBack={handlerShowQuienesSomos}></QuienesSomos>}
       {showPosts && <ListarPosts user={user} onBack={handlerClosePosts}></ListarPosts>}
       {showNews && <Novedades hasRole={hasRequiredRoles} handleGoBack={handlerShowNews}></Novedades>}
+      {showContact && <Contact onBack={handlerShowContact}></Contact>}
     </>
   );
 };

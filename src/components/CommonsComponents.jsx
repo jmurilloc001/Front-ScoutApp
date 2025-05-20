@@ -1,3 +1,5 @@
+import Particles from "./Particles/Particles"
+
 export const BackButton = ({onBack}) => {
     return (
         <button
@@ -25,5 +27,30 @@ export const BackButton = ({onBack}) => {
             >
             🔙​
         </button>
+    )
+}
+
+export const BackgroundParticles = () => {
+    return (
+        <div style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                zIndex: -1,
+                backgroundColor: '#39045c'
+            }}>
+                <Particles
+                    particleColors={['#ffffff']}
+                    particleCount={500}
+                    particleSpread={10}
+                    speed={0.3}
+                    particleBaseSize={100}
+                    moveParticlesOnHover={true}
+                    alphaParticles={false}
+                    disableRotation={false}
+                />
+            </div>
     )
 }

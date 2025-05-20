@@ -1,7 +1,7 @@
 import TextPressure from './TextPressure/TextPressure';
 import Particles from './Particles/Particles';
 
-export const InicioBody = ({ verifyIsLogin, hasRequiredRoles, showAffiliates, showListMaterials, showQuienesSomos, showPosts, showNews }) => {
+export const InicioBody = ({ verifyIsLogin, hasRequiredRoles, showAffiliates, showListMaterials, showQuienesSomos, showPosts, showNews, showContact }) => {
     return (
         <>
         <div className="squares-background">
@@ -49,7 +49,7 @@ export const InicioBody = ({ verifyIsLogin, hasRequiredRoles, showAffiliates, sh
                     </div>
                 </div>
                 <div className='col-md-6 mb-4'>
-                    <div className='card bg-dark text-white m-2' style={{ borderRadius: '30px', height: '200px', backgroundColor: '#1c1c1c', display: 'flex', alignItems: 'center', justifyContent: 'center' }}> {/* Contenedor más grande */}
+                    <div className='card bg-dark text-white m-2' style={{ borderRadius: '30px', height: '200px', backgroundColor: '#1c1c1c', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={showContact}> {/* Contenedor más grande */}
                         <div className='card-body text-center'>
                             <i className='fas fa-envelope' style={{ fontSize: '5rem', marginBottom: '10px' }}></i> {/* Icono de sobre */}
                             <h5 className='card-title'>Contacto</h5>

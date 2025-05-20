@@ -1,0 +1,34 @@
+.contacto-container {
+    background: linear-gradient(to bottom, #ffffff, #839be7); /* Degradado morado */
+    color: purple;
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+h1 {
+    color: #d8baff; /* Lavanda */
+    font-family: "Trebuchet MS", sans-serif;
+}
+
+.form-control {
+    background-color: rgba(255, 255, 255, 0.1); /* Fondo semi-transparente */
+    color: white;
+    border: 1px solid #8b008b; /* Borde morado */
+}
+
+.form-control:focus {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: #d8baff;
+    box-shadow: 0 0 5px #d8baff;
+}
+
+.btn-primary {
+    background-color: #6d0080; /* Morado oscuro */
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #4b007a; /* Más oscuro */
+}

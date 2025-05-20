@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import Particles from './Particles/Particles';
+import { BackButton } from './CommonsComponents';
 
 const initialDataForm = {
   username: '',
   password: ''
 }
 
-export const LoginForm = ({handlerDoLogin}) => {
+export const LoginForm = ({handlerDoLogin, onBack}) => {
 
   const [form, setForm] = useState(initialDataForm)
 
@@ -23,7 +24,7 @@ export const LoginForm = ({handlerDoLogin}) => {
           alphaParticles={false}
           disableRotation={false}
         />
-        <div className="d-flex justify-content-center align-items-center" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 1 }}>
+        <div className="d-flex justify-content-center align-items-center" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%'}}>
           <div className="login-form p-4 border rounded bg-light">
             <h2>Login</h2>
             <form onSubmit={(event) => {
@@ -60,6 +61,7 @@ export const LoginForm = ({handlerDoLogin}) => {
             </form>
           </div>
         </div>
+        <BackButton onBack={onBack}></BackButton>
       </div>
     </>
   );
