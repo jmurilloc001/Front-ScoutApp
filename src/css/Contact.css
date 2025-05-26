@@ -1,7 +1,7 @@
 .contacto-container {
     background: linear-gradient(to bottom, #ffffff, #839be7); /* Degradado morado */
     color: purple;
-    min-height: 50vh;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;

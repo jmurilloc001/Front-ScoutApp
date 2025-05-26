@@ -13,6 +13,15 @@ export const RegisterForm = ({handlerDoRegister, onBack}) => {
 
   return (
     <>
+    <style>
+        {`
+          body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+          }
+        `}
+      </style>
       <div style={{ width: '100vw', height: '100vh', position: 'relative', overflow: 'hidden' }}>
         <Particles
           particleColors={['#39045c', '#ffffff']}
