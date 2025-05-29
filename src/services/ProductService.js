@@ -33,6 +33,32 @@ export const getAllProducts = async() => {
     }
 };
 
+export const getStockByName = async(name) => {
+    try {
+        const token = conseguirToken();
+        const response = await axios.get(baseURL+"/"+name+"/stock", {
+            headers: {
+                'Authorization': `Bearer ${token}` // Añade el token en los encabezados
+            }
+        });
+        if (response.status === 200) {
+            const stock = response.data;
+            return {
+                status: response.status,
+                data: stock
+            };
+        }
+        return response;
+    } catch (error) {
+        console.log(error);
+        return {
+            status: error.response ? error.response.status : 500,
+            data: error.response ? error.response.data : { message: 'Error desconocido' }
+        };
+    }
+};
+
+
 export const getAllProductsPage = async (page = 0, size = 8) => {
     try {
         const token = conseguirToken();

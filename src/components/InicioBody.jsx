@@ -1,7 +1,7 @@
 import TextPressure from './TextPressure/TextPressure';
 import Particles from './Particles/Particles';
 
-export const InicioBody = ({ verifyIsLogin, hasRequiredRoles, showAffiliates, showListMaterials, showQuienesSomos, showPosts, showNews, showContact }) => {
+export const InicioBody = ({ verifyIsLogin, hasRequiredRoles, showAffiliates, showListMaterials, showQuienesSomos, showPosts, showNews, showContact, showMaterialForExits }) => {
     return (
         <>
         <div className="squares-background">
@@ -107,7 +107,7 @@ export const InicioBody = ({ verifyIsLogin, hasRequiredRoles, showAffiliates, sh
                     verifyIsLogin() && hasRequiredRoles(['ROLE_ADMIN','ROLE_COORDI']) && (
                         <>
                         <div className='col-12'>
-                            <div className='card bg-dark text-white m-2' style={{ borderRadius: '30px', height: '200px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={showListMaterials}> {/* Contenedor más grande */}
+                            <div className='card bg-dark text-white m-2' style={{ borderRadius: '30px', height: '200px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={showMaterialForExits}> {/* Contenedor más grande */}
                                 <div className='card-body text-center'>
                                     <i className='fas fa-campground' style={{ fontSize: '5rem', marginBottom: '10px' }}></i> {/* Icono de tienda de campaña */}
                                     <h5 className='card-title'>Material por acampada</h5>

@@ -168,7 +168,7 @@ const Novedades = ({ hasRole, handleGoBack }) => {
                             lineHeight: '6vw',
                             textAlign: 'center',
                             display: 'flex',
-                            alignItems: 'center',
+                            alignItems: 'flex-end',
                             justifyContent: 'center',
                             boxShadow: '0px 4px 6px rgba(0,0,0,0.2)'
                         }}

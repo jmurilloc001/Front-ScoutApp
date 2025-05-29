@@ -54,6 +54,7 @@ export const LoginForm = ({handlerDoLogin, onBack}) => {
                   type="user"
                   className="form-control w-100"
                   id="user"
+                  style={{ color: "purple" }}
                   required
                 />
               </div>
@@ -70,6 +71,7 @@ export const LoginForm = ({handlerDoLogin, onBack}) => {
                   type="password"
                   className="form-control w-100"
                   id="password"
+                  style={{ color: "purple" }}
                   required
                 />
               </div>
