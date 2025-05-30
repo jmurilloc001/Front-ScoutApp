@@ -3,6 +3,7 @@ import { formatDate, getCurrentDate } from "../../Utils/DateFormat";
 import Particles from "../Particles/Particles";
 import { getAllProductsPage, removeProduct, saveProduct, updateProduct } from '../../services/ProductService';
 import Swal from 'sweetalert2';
+import { BackgroundParticles } from '../CommonsComponents';
 
 export const ListarMateriales = ({ closeListMaterials }) => {
     const [materials, setMaterials] = useState([]);
@@ -148,16 +149,7 @@ export const ListarMateriales = ({ closeListMaterials }) => {
     return (
         <>
             <div className="squares-background" style={{ backgroundColor: '#39045c', minHeight: '100vh' }}>
-                <Particles
-                    particleColors={['#ffffff']}
-                    particleCount={500}
-                    particleSpread={10}
-                    speed={0.3}
-                    particleBaseSize={100}
-                    moveParticlesOnHover={true}
-                    alphaParticles={false}
-                    disableRotation={false}
-                />
+                <BackgroundParticles></BackgroundParticles>
             </div>
             
             <div className='slide-in-left' style={{ marginTop: '6%' }}>

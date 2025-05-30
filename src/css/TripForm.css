@@ -1,0 +1,19 @@
+.bg-purple {
+  background-color: #6a0dad; /* Morado oscuro */
+}
+
+.btn-purple {
+  background-color: #6a0dad;
+  color: white;
+  border: none;
+}
+
+.btn-purple:hover {
+  background-color: #5b0c9a;
+}
+
+.card {
+  background: linear-gradient(135deg, #6a0dad, #9d50bb);
+  color: white;
+  border-radius: 10px;
+}

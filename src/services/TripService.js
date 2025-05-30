@@ -13,7 +13,6 @@ export const getAllTripsPage = async (page = 0, size = 2) => {
         });
 
         if (response.status === 200) {
-            // Mapeamos los viajes con materiales inicializados
             const trips = response.data.content.map(trip => ({
                 id: trip.id,
                 title: trip.title,
@@ -25,7 +24,6 @@ export const getAllTripsPage = async (page = 0, size = 2) => {
                 }))
             }));
 
-            // Creamos un array de Promises para actualizar el stock
             await Promise.all(trips.map(async trip => {
                 await Promise.all(trip.materials.map(async material => {
                     material.stock = (await getStockByName(material.productName)).data;
@@ -47,7 +45,7 @@ export const getAllTripsPage = async (page = 0, size = 2) => {
         console.log(error);
         return {
             status: error.response ? error.response.status : 500,
-            data: error.response ? error.response.data : { message: 'Error desconocido' }
+            data: error.response ? error.response.data : { message: error.response.data.message }
         };
     }
 };
@@ -71,8 +69,8 @@ export const addMaterialToTrip = async (idTrip, idMaterial, quantity) => {
     try {
         const token = conseguirToken();
         const response = await axios.put(
-            `${baseURL}/${idTrip}/addProduct`, // Corrige la URL
-            null, // No enviamos un body, solo los parámetros en la URL
+            `${baseURL}/${idTrip}/addProduct`, 
+            null,
             {
                 params: { productId: idMaterial, quantity: quantity },
                 headers: { 'Authorization': `Bearer ${token}` }
@@ -87,6 +85,26 @@ export const addMaterialToTrip = async (idTrip, idMaterial, quantity) => {
         return { status: error.response?.status || 500, message: error.message };
     }
 };
+
+export const createTrip = async({title, startDate, endDate}) => {
+    try {
+        const token = conseguirToken();
+
+        const response = await axios.post(baseURL, {
+            title,
+            startDate,
+            endDate
+    },
+        {
+            headers: { 'Authorization': `Bearer ${token}` }
+    });
+    
+    return {status: response.status, data: response.data}
+    } catch (error) {
+      console.error("Error en la solicitud:", error);
+      return { status: error.response?.status || 500, message: error.response?.data.message };
+    }
+}
 
 
 export const conseguirToken = () => {

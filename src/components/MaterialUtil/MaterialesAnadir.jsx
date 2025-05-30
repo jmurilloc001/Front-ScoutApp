@@ -40,6 +40,7 @@ export const MaterialesAnadir = ({ onBack, id }) => {
 
       if (response.status === 201) {
         alert("Material añadido correctamente.");
+        onBack();
       } else {
         alert("Error al añadir el material.");
       }

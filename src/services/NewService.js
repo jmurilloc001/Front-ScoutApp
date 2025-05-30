@@ -44,7 +44,7 @@ export const saveNew = async({title, description, date, urlImage}) => {
         return { status: response.status, data: response.data };
     } catch (error) {
         console.log('Error guardando la nueva noticia:', error);
-        return { status: error.response?.status || 500, message: error.message };
+        return { status: error.response?.status || 500, message: error.response };
     }
 };
 
