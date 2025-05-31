@@ -82,7 +82,7 @@ export const addMaterialToTrip = async (idTrip, idMaterial, quantity) => {
         return { status: response.status };
     } catch (error) {
         console.log(`Error añadiendo material al trip ${idTrip}:`, error);
-        return { status: error.response?.status || 500, message: error.message };
+        return { status: error.response?.status || 500, message: error.response.data.message };
     }
 };
 

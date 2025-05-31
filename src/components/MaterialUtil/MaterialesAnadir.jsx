@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { getAllProducts } from "../../services/ProductService";
 import { addMaterialToTrip } from "../../services/TripService";
+import Swal from "sweetalert2";
 
 export const MaterialesAnadir = ({ onBack, id }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -39,10 +40,20 @@ export const MaterialesAnadir = ({ onBack, id }) => {
       const response = await addMaterialToTrip(id, idMaterial, quantity);
 
       if (response.status === 201) {
-        alert("Material añadido correctamente.");
+        Swal.fire({
+            icon: "success",
+            title: "Añadido exitosamente",
+            text: "Se ha añadido el material correctamente.",
+            showConfirmButton: false,
+            timer: 1500
+        });
         onBack();
       } else {
-        alert("Error al añadir el material.");
+        Swal.fire({
+            icon: "error",
+            title: `Error añadiendo el material a la salida. Status: ${response.status}`,
+            text: `Mensaje: ${response.message}`
+          });
       }
     } else {
       alert("Por favor ingresa una cantidad válida.");

@@ -198,27 +198,27 @@ const handleDelete = async (id) => {
         )}
 
         <button
-                        type="button"
-                        className="btn btn-success rounded-circle"
-                        style={{
-                            backgroundColor: 'green',
-                            position: 'fixed',
-                            bottom: '5vh',
-                            right: '5vw',
-                            width: '6vw',
-                            height: '6vw',
-                            fontSize: '3vw',
-                            lineHeight: '6vw',
-                            textAlign: 'center',
-                            display: 'flex',
-                            alignItems: 'flex-end',
-                            justifyContent: 'center',
-                            boxShadow: '0px 4px 6px rgba(0,0,0,0.2)'
-                        }}
-                        onClick={handlerShowTripForm}
-                    >
-                        {!showCreateTrip ? '+' : '×'}
-                    </button>
+            type="button"
+            className="btn btn-success rounded-circle"
+            style={{
+                backgroundColor: 'green',
+                position: 'fixed',
+                bottom: '5vh',
+                right: '5vw',
+                width: '6vw',
+                height: '6vw',
+                fontSize: '3vw',
+                lineHeight: '6vw',
+                textAlign: 'center',
+                display: 'flex',
+                alignItems: 'flex-end',
+                justifyContent: 'center',
+                boxShadow: '0px 4px 6px rgba(0,0,0,0.2)'
+                }}
+                onClick={handlerShowTripForm}
+                >
+              {!showCreateTrip ? '+' : '×'}
+          </button>
       </div>
       <BackButton onBack={onBack} />
     </>
