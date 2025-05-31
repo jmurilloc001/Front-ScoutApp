@@ -106,6 +106,40 @@ export const createTrip = async({title, startDate, endDate}) => {
     }
 }
 
+export const updateMaterialOfTrip = async({materialId, tripId, newQuantity}) => {
+    try {
+        const token = conseguirToken();
+
+        const response = await axios.put(baseURL+"/"+tripId+"/product/"+materialId+"/updateQuantity/"+newQuantity,
+        {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+    return {status: response.status, data: response.data}
+    } catch (error) {
+      console.error("Error actualizando el material del trip:", error);
+      return { status: error.response?.status || 500, message: error.response?.data.message };
+    }
+}
+
+export const updateMaterialByName = async ({ materialName, tripId, newQuantity }) => {
+    try {
+        const token = conseguirToken();
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        };
+
+        const response = await axios.put(`${baseURL}/${tripId}/productName/${materialName}/updateQuantity/${newQuantity}`, {}, config);
+
+        return { status: response.status, data: response.data };
+    } catch (error) {
+        console.error("Error actualizando el material del trip:", error);
+        return { status: error.response?.status || 500, message: error.response?.data?.message || "Error desconocido" };
+    }
+};
+
+
 
 export const conseguirToken = () => {
   const user = JSON.parse(sessionStorage.getItem('user'));

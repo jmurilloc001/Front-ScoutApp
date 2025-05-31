@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { BackButton, BackgroundParticles } from "../CommonsComponents";
-import { deleteTrip, getAllTripsPage } from "../../services/TripService";
+import { deleteTrip, getAllTripsPage, updateMaterialByName, updateMaterialOfTrip } from "../../services/TripService";
 import Swal from "sweetalert2";
 import { MaterialesAnadir } from "./MaterialesAnadir";
 import { TripForm } from "./TripForm";
@@ -113,6 +113,49 @@ const handleDelete = async (id) => {
     }
   }
 
+  const handleEditMaterial = async (materialName, tripId) => {
+  Swal.fire({
+    title: "Editar material",
+    input: "number",
+    inputPlaceholder: "Ingrese la nueva cantidad",
+    showCancelButton: true,
+    confirmButtonColor: "#28a745",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Actualizar",
+    cancelButtonText: "Cancelar",
+    inputValidator: (value) => {
+      if (!value || isNaN(value) || Number(value) < 0) {
+        return "Por favor ingrese un número válido.";
+      }
+    }
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      const newQuantity = result.value;
+      
+      const response = await updateMaterialByName({ materialName, tripId, newQuantity });
+
+      if (response.status === 201) {
+        Swal.fire({
+          icon: "success",
+          title: "Editado exitosamente",
+          text: "Se ha actualizado la cantidad del material correctamente.",
+          showConfirmButton: false,
+          timer: 1500
+        });
+        setReload(prevCount => prevCount + 1);
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error inesperado",
+          text: "Message: " + response.message
+        });
+      }
+    }
+  });
+};
+
+
+
   return (
     <>
       <BackgroundParticles />
@@ -157,14 +200,23 @@ const handleDelete = async (id) => {
                           <th>Material</th>
                           <th>Usado</th>
                           <th>En Stock</th>
+                          <th>Acción</th>
                         </tr>
                       </thead>
                       <tbody>
                         {salida.materials.map((material, index) => (
-                          <tr key={index}>
+                            <tr key={index}>
                             <td>{material.productName}</td>
                             <td>{material.cantidad}</td>
                             <td>{material.stock}</td>
+                            <td>
+                              <button
+                                className="btn btn-sm btn-warning"
+                                onClick={() => handleEditMaterial(material.productName, salida.id)}
+                              >
+                                ✏️
+                              </button>
+                            </td>
                           </tr>
                         ))}
                       </tbody>
