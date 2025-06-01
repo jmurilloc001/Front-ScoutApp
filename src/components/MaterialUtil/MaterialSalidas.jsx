@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { BackButton, BackgroundParticles } from "../CommonsComponents";
-import { deleteTrip, getAllTripsPage, updateMaterialByName, updateMaterialOfTrip } from "../../services/TripService";
+import { deleteTrip, getAllTripsPageByCloseFalse, getTripById, updateMaterialByName, updateMaterialOfTrip } from "../../services/TripService";
 import Swal from "sweetalert2";
 import { MaterialesAnadir } from "./MaterialesAnadir";
 import { TripForm } from "./TripForm";
+import { CloseTrip } from "./CloseTrip";
+import AllTrips from "./AllTrips";
 
 export const MaterialSalidas = ({ onBack }) => {
   const [salidas, setSalidas] = useState([]);
@@ -13,11 +15,14 @@ export const MaterialSalidas = ({ onBack }) => {
   const [tripId, setTripId] = useState(0);
   const [reload, setReload] = useState(0);
   const [showCreateTrip, setShowCreateTrip] = useState(false);
+  const [showCloseTrip, setShowCloseTrip] = useState(false);
+  const [showAllTrips, setShowAllTrips] = useState(false);
+  
   const pageSize = 2;
 
   useEffect(() => {
     const fetchSalidas = async () => {
-      const response = await getAllTripsPage(page, pageSize);
+      const response = await getAllTripsPageByCloseFalse(page, pageSize);
       if (response.status === 200) {
         setSalidas(response.data)
         setTotalPages(response.totalPages);
@@ -85,9 +90,15 @@ const handleDelete = async (id) => {
   });
 };
 
-
-  const handleCloseTrip = (id) => {
-    
+  const handleCloseTrip = async (id = 0) => {
+    setTripId(id);
+    if (showCloseTrip) {
+      setShowCloseTrip(false);
+      setReload(prevCount => prevCount + 1);
+    }else{
+      console.log("TripId" + tripId);
+      setShowCloseTrip(true);
+    }
   };
 
   const handleShowMaterialsToAdd = (id = 0) => {
@@ -154,19 +165,31 @@ const handleDelete = async (id) => {
   });
 };
 
+const handlerShowAllTrips = () => {
+  if (showAllTrips) {
+    setShowAllTrips(false);
+  }else{
+    setShowAllTrips(true);
+  }
+}
 
 
   return (
     <>
       <BackgroundParticles />
+      {showAllTrips && <AllTrips onBack={handlerShowAllTrips}></AllTrips>}
+      {showCloseTrip && <CloseTrip onBack={handleCloseTrip} id={tripId}></CloseTrip>}
       {showCreateTrip && <TripForm onBack={handlerShowTripForm} reload={setReload}></TripForm> }
+      {!showAllTrips &&
+        <>
       <div style={{zIndex:'100'}}>
         {showMaterialsToAdd && <MaterialesAnadir onBack={handleShowMaterialsToAdd} id={tripId}></MaterialesAnadir>}
       </div>  
       <div className="container mt-5">
         <h1 className="text-center mb-4">Listado de Salidas</h1>
         <div className="row">
-          {salidas.map((salida) => 
+          {salidas
+            .map((salida) => (
               <div key={salida.id} className="col-md-6 mb-4">
                 <div className="card shadow">
                   <div className="card-header bg-primary text-white d-flex justify-content-between">
@@ -176,19 +199,19 @@ const handleDelete = async (id) => {
                         className="btn btn-sm btn-danger mx-1"
                         onClick={() => handleDelete(salida.id)}
                       >
-                        ❌ <b>Eliminar</b>
+                        ❌
                       </button>
                       <button
                         className="btn btn-sm btn-secondary mx-1"
                         onClick={() => handleCloseTrip(salida.id)}
                       >
-                        🔒 <b>Cerrar</b>
+                        🔒
                       </button>
                       <button
                         className="btn btn-sm btn-success"
                         onClick={() => handleShowMaterialsToAdd(salida.id)}
                       >
-                        ➕ <b>Añadir Material</b>
+                        ➕
                       </button>
                     </div>
                   </div>
@@ -205,7 +228,7 @@ const handleDelete = async (id) => {
                       </thead>
                       <tbody>
                         {salida.materials.map((material, index) => (
-                            <tr key={index}>
+                          <tr key={index}>
                             <td>{material.productName}</td>
                             <td>{material.cantidad}</td>
                             <td>{material.stock}</td>
@@ -230,24 +253,32 @@ const handleDelete = async (id) => {
                   </div>
                 </div>
               </div>
-          )}
+          ))}
         </div>
-        {page < totalPages - 1 && (
-          <button
-            className="btn btn-primary mt-3"
-            onClick={() => setPage((prevPage) => prevPage + 1)}
-          >
-            Página siguiente
-          </button>
-        )}
-        {page > 0 && (
-          <button
-            className="btn btn-secondary mt-3 me-2"
-            onClick={() => setPage((prevPage) => prevPage - 1)}
-          >
-            Página anterior
-          </button>
-        )}
+        <div className="d-flex justify-content-center mt-4">
+            {page > 0 && (
+                <button
+                    className="btn btn-secondary me-2"
+                    onClick={() => setPage((prevPage) => prevPage - 1)}
+                >
+                    ⬅️ Página anterior
+                </button>
+            )}
+            {page < totalPages - 1 && (
+                <button
+                    className="btn btn-primary"
+                    onClick={() => setPage((prevPage) => prevPage + 1)}
+                >
+                    Página siguiente ➡️
+                </button>
+            )}
+        </div>
+
+        <div className="d-flex justify-content-center mt-3">
+            <button className="btn btn-primary" onClick={() => handlerShowAllTrips()}>
+                VER TODOS
+            </button>
+        </div>
 
         <button
             type="button"
@@ -273,6 +304,8 @@ const handleDelete = async (id) => {
           </button>
       </div>
       <BackButton onBack={onBack} />
+      </>
+      }
     </>
   );
 };

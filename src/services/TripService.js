@@ -18,6 +18,7 @@ export const getAllTripsPage = async (page = 0, size = 2) => {
                 title: trip.title,
                 startDate: trip.startDate,
                 endDate: trip.endDate,
+                close: trip.close,
                 materials: trip.materials.map(material => ({
                     ...material,
                     stock: 0
@@ -49,6 +50,75 @@ export const getAllTripsPage = async (page = 0, size = 2) => {
         };
     }
 };
+
+export const getAllTripsPageByCloseFalse = async (page = 0, size = 2) => {
+    try {
+        const token = conseguirToken();
+        const response = await axios.get(`${baseURL}/paginated/close/false?page=${page}&size=${size}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (response.status === 200) {
+            const trips = response.data.content.map(trip => ({
+                id: trip.id,
+                title: trip.title,
+                startDate: trip.startDate,
+                endDate: trip.endDate,
+                materials: trip.materials.map(material => ({
+                    ...material,
+                    stock: 0
+                }))
+            }));
+
+            await Promise.all(trips.map(async trip => {
+                await Promise.all(trip.materials.map(async material => {
+                    material.stock = (await getStockByName(material.productName)).data;
+                }));
+            }));
+
+            return {
+                status: response.status,
+                data: trips,
+                totalPages: response.data.totalPages,
+                totalElements: response.data.totalElements,
+                currentPage: response.data.number
+            };
+        }
+
+        return response;
+
+    } catch (error) {
+        console.log(error);
+        return {
+            status: error.response ? error.response.status : 500,
+            data: error.response ? error.response.data : { message: error.response.data.message }
+        };
+    }
+};
+
+export const getTripById = async(id) => {
+    try {
+        const token = conseguirToken();
+        const response = await axios.get(`${baseURL}/${id}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        console.log("Respuesta completa del servidor:", response); 
+        return { status: response.status, data: response.data };
+
+    } catch (error) {
+        console.error('Error encontrando el trip ' + id + ": ", error);
+        return { 
+            status: error.response?.status || 500, 
+            message: error.response?.data?.message || error.message 
+        };
+    }
+};
+
 
 export const deleteTrip = async(id) => {
     try {
@@ -139,6 +209,23 @@ export const updateMaterialByName = async ({ materialName, tripId, newQuantity }
     }
 };
 
+export const cerrarTrip = async({id, materialsWithQuantities}) => {
+    try {
+        const token = conseguirToken();
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        };
+
+        const response = await axios.post(`${baseURL}/${id}/close`, materialsWithQuantities, config);
+
+        return { status: response.status, data: response.data };
+    } catch (error) {
+        console.error("Error cerrando el trip:", error);
+        return { status: error.response?.status || 500, message: error.response?.data?.message || "Error desconocido" };
+    }
+};
 
 
 export const conseguirToken = () => {

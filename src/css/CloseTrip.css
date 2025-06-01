@@ -1,0 +1,19 @@
+body {
+    background-color: #6a0dad;
+}
+
+.list-group-item {
+    background-color: #9c4dcc;
+    color: white;
+    font-weight: bold;
+}
+
+.badge {
+    background-color: #48126b;
+}
+
+.btn-light {
+    background-color: white;
+    color: #6a0dad;
+    font-weight: bold;
+}
