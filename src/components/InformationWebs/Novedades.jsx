@@ -126,7 +126,6 @@ const Novedades = ({ hasRole, handleGoBack }) => {
     }, [size, page, sort, reload]);
 
     const handlerShowNewForm = (newsItem = null) => {
-    setShowCreateNew(prevState => !prevState);
     if (newsItem) {
         setOnUpdate(true);
         setSelectedNews(newsItem);
@@ -134,6 +133,7 @@ const Novedades = ({ hasRole, handleGoBack }) => {
         setOnUpdate(false);
         setSelectedNews(null);
     }
+    setShowCreateNew(prevState => !prevState);
 };
 
     const handleNextPage = () => {
@@ -172,7 +172,7 @@ const Novedades = ({ hasRole, handleGoBack }) => {
                             justifyContent: 'center',
                             boxShadow: '0px 4px 6px rgba(0,0,0,0.2)'
                         }}
-                        onClick={handlerShowNewForm}
+                        onClick={() => {handlerShowNewForm(null)}}
                     >
                         {!showCreateNew ? '+' : '×'}
                     </button>
