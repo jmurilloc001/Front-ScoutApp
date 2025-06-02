@@ -44,7 +44,7 @@ const AllTrips = ({onBack}) => {
                                         <thead>
                                             <tr>
                                                 <th>Material</th>
-                                                <th>Usado</th>
+                                                <th>{`${trip.close ? "Traido" : "Usado"}`}</th>
                                                 <th>En Stock</th>
                                             </tr>
                                         </thead>

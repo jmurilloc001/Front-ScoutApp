@@ -6,6 +6,7 @@ import { MaterialesAnadir } from "./MaterialesAnadir";
 import { TripForm } from "./TripForm";
 import { CloseTrip } from "./CloseTrip";
 import AllTrips from "./AllTrips";
+import { HistoricalTrips } from "./HistoricalTrips";
 
 export const MaterialSalidas = ({ onBack }) => {
   const [salidas, setSalidas] = useState([]);
@@ -17,6 +18,7 @@ export const MaterialSalidas = ({ onBack }) => {
   const [showCreateTrip, setShowCreateTrip] = useState(false);
   const [showCloseTrip, setShowCloseTrip] = useState(false);
   const [showAllTrips, setShowAllTrips] = useState(false);
+  const [showHistoricalTrips, setShowHistoricalTrips] = useState(false);
   
   const pageSize = 2;
 
@@ -173,6 +175,15 @@ const handlerShowAllTrips = () => {
   }
 }
 
+const handleShowHistoricalTrips = () => {
+  if (showHistoricalTrips) {
+    setShowHistoricalTrips(false);
+  }
+  else{
+    setShowHistoricalTrips(true);
+  }
+}
+
 
   return (
     <>
@@ -180,7 +191,8 @@ const handlerShowAllTrips = () => {
       {showAllTrips && <AllTrips onBack={handlerShowAllTrips}></AllTrips>}
       {showCloseTrip && <CloseTrip onBack={handleCloseTrip} id={tripId}></CloseTrip>}
       {showCreateTrip && <TripForm onBack={handlerShowTripForm} reload={setReload}></TripForm> }
-      {!showAllTrips &&
+      {showHistoricalTrips && <HistoricalTrips onBack={handleShowHistoricalTrips}></HistoricalTrips>}
+      {!showAllTrips && !showHistoricalTrips &&
         <>
       <div style={{zIndex:'100'}}>
         {showMaterialsToAdd && <MaterialesAnadir onBack={handleShowMaterialsToAdd} id={tripId}></MaterialesAnadir>}
@@ -277,6 +289,11 @@ const handlerShowAllTrips = () => {
         <div className="d-flex justify-content-center mt-3">
             <button className="btn btn-primary" onClick={() => handlerShowAllTrips()}>
                 VER TODOS
+            </button>
+        </div>
+        <div className="d-flex justify-content-center mt-3">
+            <button className="btn btn-secondary" onClick={() => handleShowHistoricalTrips()}>
+                VER CERRADOS
             </button>
         </div>
 
